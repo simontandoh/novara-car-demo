@@ -1,0 +1,160 @@
+/* Mobile hamburger + slide panel — Redfield FC (FootballNav) */
+
+.football-site-nav {
+  position: relative;
+}
+
+.football-site-nav .nav-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  flex-shrink: 0;
+  z-index: 180;
+}
+
+.football-site-nav .nav-menu-toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
+}
+
+.football-site-nav.football-site-nav--open .nav-menu-toggle-bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.football-site-nav.football-site-nav--open .nav-menu-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.football-site-nav.football-site-nav--open .nav-menu-toggle-bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.foot-nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 160;
+  background: rgba(0, 0, 0, 0.55);
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.foot-nav-backdrop.is-open {
+  display: block;
+}
+
+.foot-nav-mobile {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 170;
+  width: min(100vw - 40px, 320px);
+  height: 100vh;
+  height: 100dvh;
+  padding: calc(68px + 16px) 20px 28px;
+  background: rgba(12, 12, 12, 0.98);
+  backdrop-filter: blur(12px);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.45);
+  transform: translateX(100%);
+  transition: transform 0.28s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  visibility: hidden;
+}
+
+.football-site-nav.football-site-nav--open .foot-nav-mobile {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.foot-nav-mobile-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.foot-nav-mobile-links a {
+  display: block;
+  padding: 14px 12px;
+  font-family: var(--font-c, system-ui);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(248, 248, 246, 0.65);
+  text-decoration: none;
+  border-radius: 6px;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+
+.foot-nav-mobile-links a:hover,
+.foot-nav-mobile-links a.active {
+  color: #fff;
+  background: rgba(200, 16, 46, 0.15);
+}
+
+.foot-nav-mobile-cta {
+  margin-top: 16px;
+  padding: 14px 18px;
+  text-align: center;
+  font-family: var(--font-c, system-ui);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--red, #c8102e);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.foot-nav-mobile-cta:hover {
+  background: var(--red-dark, #a00d25);
+}
+
+@media (min-width: 901px) {
+  .foot-nav-mobile,
+  .foot-nav-backdrop {
+    display: none !important;
+  }
+
+  .football-site-nav .nav-menu-toggle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .football-site-nav .nav-menu-toggle {
+    display: flex;
+  }
+
+  .football-site-nav > .nav-cta.foot-nav-cta-desktop {
+    display: none;
+  }
+}
