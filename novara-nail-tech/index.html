@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lola Nails Studio — Nail Artist, Liverpool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blush:#F2C4C0;--blush-light:#FAE8E6;--blush-mid:#EBA8A2;
+  --cream:#FAF7F4;--offwhite:#F5F0EB;--dark:#1C1410;
+  --taupe:#9B8A7A;--muted:#C4AFA6;--border:#ECD9D4;
+  --gold:#C9A96E;--rose:#C97070;
+  --font-display:'Playfair Display',serif;--font-body:'Jost',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--dark);font-family:var(--font-body);font-weight:300;overflow-x:hidden;cursor:none;}
+
+/* cursor */
+#cur-dot{position:fixed;width:8px;height:8px;background:var(--blush-mid);border-radius:50%;transform:translate(-50%,-50%);z-index:9999;pointer-events:none;transition:transform 0.1s;}
+#cur-ring{position:fixed;width:32px;height:32px;border:1px solid var(--blush-mid);border-radius:50%;transform:translate(-50%,-50%);z-index:9998;pointer-events:none;transition:all 0.2s ease;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:24px 56px;background:rgba(250,247,244,0.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--font-display);font-size:20px;font-weight:400;color:var(--dark);text-decoration:none;letter-spacing:0.02em;}
+.nav-logo span{font-style:italic;color:var(--rose);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-size:11px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--taupe);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--dark);}
+.nav-book{font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--cream);background:var(--dark);padding:11px 26px;text-decoration:none;transition:background 0.2s;}
+.nav-book:hover{background:var(--rose);}
+.nav-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px;width:44px;height:44px;padding:0;border:1px solid var(--border);background:transparent;cursor:pointer;transition:border-color 0.2s,background 0.2s;}
+.nav-toggle:hover{border-color:rgba(201,112,112,0.45);background:rgba(201,112,112,0.08);}
+.nav-toggle span{display:block;width:20px;height:2px;background:var(--dark);transition:transform 0.25s ease,opacity 0.2s;}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+.nav-mobile-backdrop{position:fixed;inset:0;z-index:499;background:rgba(28,20,16,0.45);opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s;}
+.nav-mobile-backdrop.is-open{opacity:1;visibility:visible;}
+.nav-mobile{position:fixed;top:0;right:0;z-index:500;width:min(100%,320px);height:100vh;background:var(--cream);border-left:1px solid var(--border);padding:96px 24px 32px;transform:translateX(100%);transition:transform 0.3s ease;overflow-y:auto;}
+.nav-mobile.is-open{transform:translateX(0);}
+.nav-mobile ul{list-style:none;display:flex;flex-direction:column;gap:0;}
+.nav-mobile a{display:block;padding:14px 0;border-bottom:1px solid var(--border);font-size:11px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--taupe);text-decoration:none;transition:color 0.2s;}
+.nav-mobile a:hover{color:var(--dark);}
+.nav-mobile-cta{margin-top:24px;font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--cream);background:var(--dark);padding:14px 24px;text-align:center;text-decoration:none;border:none;display:block;}
+.nav-mobile-cta:hover{background:var(--rose);}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:72px;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 56px;position:relative;overflow:hidden;}
+.hero-left::before{content:'';position:absolute;top:-120px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,var(--blush-light) 0%,transparent 70%);pointer-events:none;}
+.hero-left::after{content:'';position:absolute;bottom:-80px;left:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(242,196,192,0.25) 0%,transparent 70%);pointer-events:none;}
+.hero-pretitle{font-size:10px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--rose);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.hero-pretitle::before{content:'';display:block;width:28px;height:1px;background:var(--blush-mid);}
+h1{font-family:var(--font-display);font-size:clamp(52px,6.5vw,96px);line-height:0.9;font-weight:400;color:var(--dark);margin-bottom:28px;position:relative;z-index:1;}
+h1 em{font-style:italic;color:var(--rose);}
+.hero-sub{font-size:14px;font-weight:300;line-height:1.9;color:var(--taupe);max-width:380px;margin-bottom:44px;position:relative;z-index:1;}
+.hero-acts{display:flex;gap:16px;align-items:center;position:relative;z-index:1;}
+.btn-primary{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);background:var(--dark);padding:15px 36px;text-decoration:none;transition:background 0.2s;}
+.btn-primary:hover{background:var(--rose);}
+.btn-ghost{font-size:11px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--taupe);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color 0.2s,border-color 0.2s;}
+.btn-ghost:hover{color:var(--dark);border-color:var(--dark);}
+.hero-social{margin-top:52px;display:flex;gap:24px;position:relative;z-index:1;}
+.hs-link{font-size:10px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.hs-link:hover{color:var(--dark);}
+
+/* hero right — photo mosaic */
+.hero-right{position:relative;overflow:hidden;background:var(--blush-light);}
+.hero-main-photo{width:100%;height:100%;object-fit:cover;display:block;object-position:center top;}
+.hero-badge{position:absolute;bottom:40px;left:40px;background:rgba(250,247,244,0.94);backdrop-filter:blur(8px);padding:20px 24px;max-width:220px;}
+.hb-num{font-family:var(--font-display);font-size:36px;font-weight:400;color:var(--rose);line-height:1;}
+.hb-text{font-size:11px;font-weight:300;letter-spacing:0.12em;text-transform:uppercase;color:var(--taupe);margin-top:4px;}
+
+/* MARQUEE */
+.marquee-wrap{background:var(--blush);padding:14px 0;overflow:hidden;border-top:1px solid var(--blush-mid);border-bottom:1px solid var(--blush-mid);}
+.marquee-inner{display:flex;white-space:nowrap;animation:marquee 20s linear infinite;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.m-item{font-family:var(--font-display);font-size:13px;font-style:italic;color:var(--dark);padding:0 32px;opacity:0.7;}
+.m-dot{color:var(--rose);margin-right:32px;}
+
+/* ABOUT */
+.about{padding:100px 56px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;background:var(--offwhite);}
+.about-photos{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:8px;position:relative;}
+.ap-main{grid-column:1/3;overflow:hidden;}
+.ap-main-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;filter:brightness(0.95);}
+.ap-sm{overflow:hidden;}
+.ap-sm-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;filter:brightness(0.93);}
+.ap-label{position:absolute;bottom:-24px;right:0;background:var(--blush);padding:12px 20px;}
+.apl-text{font-family:var(--font-display);font-style:italic;font-size:13px;color:var(--dark);opacity:0.8;}
+.sec-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.26em;text-transform:uppercase;color:var(--rose);margin-bottom:16px;}
+.sec-title{font-family:var(--font-display);font-size:clamp(36px,4.5vw,60px);line-height:0.92;font-weight:400;color:var(--dark);margin-bottom:24px;}
+.sec-title em{font-style:italic;}
+.body-text{font-size:14px;font-weight:300;line-height:1.95;color:var(--taupe);margin-bottom:18px;}
+.about-sign{font-family:var(--font-display);font-size:28px;font-style:italic;color:var(--rose);margin-top:28px;}
+
+/* SERVICES */
+.services{padding:100px 56px;background:var(--cream);}
+.services-header{text-align:center;margin-bottom:64px;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.svc{background:var(--offwhite);padding:44px 36px;position:relative;overflow:hidden;transition:background 0.3s;}
+.svc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--blush);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+.svc:hover{background:var(--blush-light);}
+.svc:hover::before{transform:scaleX(1);}
+.svc-number{font-family:var(--font-display);font-size:52px;font-weight:400;color:rgba(242,196,192,0.5);line-height:1;margin-bottom:16px;}
+.svc-name{font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--dark);margin-bottom:10px;line-height:1.2;}
+.svc-desc{font-size:13px;font-weight:300;line-height:1.8;color:var(--taupe);margin-bottom:20px;}
+.svc-price{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--rose);}
+
+/* GALLERY */
+.gallery{padding:80px 56px;background:var(--blush-light);}
+.gallery-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.gallery-item{overflow:hidden;aspect-ratio:1;}
+.gallery-item:first-child{grid-column:1/3;grid-row:1/3;aspect-ratio:auto;}
+.gallery-img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.93) saturate(1.08);transition:filter 0.4s,transform 0.5s;}
+.gallery-item:hover .gallery-img{filter:brightness(1) saturate(1.15);transform:scale(1.05);}
+
+/* PROCESS */
+.process{padding:100px 56px;background:var(--dark);}
+.process-inner{max-width:1000px;margin:0 auto;}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:64px;}
+.step{padding:36px 28px;border-left:1px solid rgba(242,196,192,0.12);}
+.step:first-child{border-left:none;}
+.step-num{font-family:var(--font-display);font-style:italic;font-size:48px;color:rgba(242,196,192,0.15);line-height:1;margin-bottom:16px;}
+.step-name{font-family:var(--font-display);font-size:18px;color:var(--cream);margin-bottom:10px;}
+.step-desc{font-size:12px;font-weight:300;line-height:1.8;color:rgba(250,247,244,0.4);}
+
+/* REVIEWS */
+.reviews{padding:100px 56px;background:var(--offwhite);}
+.reviews-inner{max-width:1100px;margin:0 auto;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
+.review-card{background:var(--cream);padding:36px 32px;}
+.rev-stars{color:var(--gold);font-size:13px;letter-spacing:3px;margin-bottom:16px;}
+.rev-text{font-family:var(--font-display);font-size:15px;font-style:italic;line-height:1.75;color:var(--dark);margin-bottom:20px;}
+.rev-name{font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--taupe);}
+.rev-service{font-size:11px;font-weight:300;color:var(--rose);margin-top:2px;}
+
+/* PRICING */
+.pricing{padding:100px 56px;background:var(--cream);}
+.pricing-inner{max-width:1000px;margin:0 auto;}
+.price-list{display:flex;flex-direction:column;gap:2px;margin-top:56px;}
+.price-row{background:var(--offwhite);padding:24px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px;border-left:2px solid transparent;transition:all 0.2s;}
+.price-row:hover{border-left-color:var(--blush-mid);background:var(--blush-light);padding-left:40px;}
+.pr-name{font-family:var(--font-display);font-size:18px;color:var(--dark);}
+.pr-desc{font-size:12px;font-weight:300;color:var(--taupe);margin-top:3px;}
+.pr-price{font-family:var(--font-display);font-size:22px;color:var(--rose);white-space:nowrap;}
+.pr-from{font-size:11px;color:var(--muted);text-align:right;margin-top:2px;}
+
+/* BOOKING */
+.booking{padding:100px 56px;background:var(--blush);}
+.booking-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1100px;margin:0 auto;}
+.bi-title{font-family:var(--font-display);font-size:clamp(44px,6vw,80px);line-height:0.88;color:var(--dark);margin-bottom:24px;}
+.bi-title em{font-style:italic;}
+.bi-body{font-size:14px;font-weight:300;line-height:1.9;color:var(--taupe);margin-bottom:32px;}
+.bi-detail{display:flex;flex-direction:column;gap:12px;}
+.bid{display:flex;gap:12px;align-items:flex-start;}
+.bid-icon{font-size:16px;flex-shrink:0;margin-top:2px;}
+.bid-label{font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--rose);margin-bottom:3px;}
+.bid-val{font-size:13px;font-weight:300;color:var(--dark);}
+
+.form-group{margin-bottom:16px;}
+.form-label{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--taupe);display:block;margin-bottom:8px;}
+.form-input,.form-select,.form-textarea{width:100%;background:rgba(250,247,244,0.8);border:1px solid var(--blush-mid);color:var(--dark);font-family:var(--font-body);font-size:13px;font-weight:300;padding:13px 16px;outline:none;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--rose);background:var(--cream);}
+.form-textarea{height:100px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.btn-book{font-size:12px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);background:var(--dark);padding:16px 40px;border:none;cursor:pointer;width:100%;margin-top:8px;transition:background 0.2s;}
+.btn-book:hover{background:var(--rose);}
+
+/* FOOTER */
+footer{background:var(--dark);padding:56px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:48px;}
+.footer-logo{font-family:var(--font-display);font-size:22px;color:var(--cream);margin-bottom:12px;}
+.footer-logo span{font-style:italic;color:var(--blush);}
+.footer-tagline{font-size:12px;font-weight:300;color:rgba(250,247,244,0.35);line-height:1.7;}
+.footer-col-title{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--blush-mid);margin-bottom:14px;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-size:12px;font-weight:300;color:rgba(250,247,244,0.38);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--cream);}
+.footer-bottom{grid-column:1/-1;border-top:1px solid rgba(250,247,244,0.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-copy{font-size:11px;color:rgba(250,247,244,0.25);}
+.footer-credit{font-size:11px;color:rgba(250,247,244,0.25);}
+.footer-credit a{color:var(--blush-mid);text-decoration:none;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fu{opacity:0;animation:fadeUp 0.7s ease forwards;}
+.d1{animation-delay:0.1s;}.d2{animation-delay:0.25s;}.d3{animation-delay:0.4s;}.d4{animation-delay:0.55s;}
+
+@media(max-width:960px){
+  nav{padding:18px 20px;}.nav-links,.nav-book{display:none;}.nav-toggle{display:flex;}
+  .hero{grid-template-columns:1fr;}.hero-left{padding:80px 24px 56px;}.hero-right{min-height:360px;}
+  .about,.booking-inner{grid-template-columns:1fr;gap:48px;}
+  .about{padding:72px 24px;}.services,.reviews,.pricing,.gallery,.process,.booking{padding:72px 24px;}
+  .services-grid,.reviews-grid{grid-template-columns:1fr;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}.gallery-item:first-child{grid-column:auto;grid-row:auto;}
+  .process-steps{grid-template-columns:1fr 1fr;}
+  footer{padding:40px 24px;grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(min-width:961px){
+  .nav-mobile,.nav-mobile-backdrop{display:none!important;}
+}
+</style>
+</head>
+<body id="top">
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<nav>
+  <a href="#top" class="nav-logo">Lola <span>Nails</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#booking">Book</a></li>
+  </ul>
+  <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMobile" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#booking" class="nav-book">Book Now</a>
+</nav>
+<div class="nav-mobile-backdrop" id="navBackdrop" hidden></div>
+<nav class="nav-mobile" id="navMobile" aria-label="Mobile" hidden>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#booking">Book</a></li>
+  </ul>
+  <a href="#booking" class="nav-mobile-cta">Book Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-pretitle fu d1">Nail Artist · Liverpool</p>
+    <h1 class="fu d2">Nails That<br>Tell Your<br><em>Story.</em></h1>
+    <p class="hero-sub fu d3">Bespoke nail art and premium nail care in a calm, intimate studio. Every set is crafted with intention — from soft minimalism to intricate wearable art.</p>
+    <div class="hero-acts fu d4">
+      <a href="#booking" class="btn-primary">Book a Set</a>
+      <a href="#gallery" class="btn-ghost">View the work</a>
+    </div>
+    <div class="hero-social fu d4">
+      <a href="https://instagram.com/lolanailsstudio" target="_blank" rel="noopener noreferrer" class="hs-link">Instagram</a>
+      <a href="https://tiktok.com/@lolanailsstudio" target="_blank" rel="noopener noreferrer" class="hs-link">TikTok</a>
+      <a href="https://pinterest.com/lolanailsstudio" target="_blank" rel="noopener noreferrer" class="hs-link">Pinterest</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-main-photo" src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=900&q=85&fit=crop&crop=center" alt="Nail art"/>
+    <div class="hero-badge">
+      <div class="hb-num">500+</div>
+      <div class="hb-text">Happy clients this year</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span class="m-item">Gel Extensions</span><span class="m-dot">✦</span>
+    <span class="m-item">Nail Art</span><span class="m-dot">✦</span>
+    <span class="m-item">Soft Gel Tips</span><span class="m-dot">✦</span>
+    <span class="m-item">BIAB</span><span class="m-dot">✦</span>
+    <span class="m-item">Soak Off</span><span class="m-dot">✦</span>
+    <span class="m-item">Chrome & Foils</span><span class="m-dot">✦</span>
+    <span class="m-item">Bridal Sets</span><span class="m-dot">✦</span>
+    <span class="m-item">Nail Repair</span><span class="m-dot">✦</span>
+    <span class="m-item">Gel Extensions</span><span class="m-dot">✦</span>
+    <span class="m-item">Nail Art</span><span class="m-dot">✦</span>
+    <span class="m-item">Soft Gel Tips</span><span class="m-dot">✦</span>
+    <span class="m-item">BIAB</span><span class="m-dot">✦</span>
+    <span class="m-item">Soak Off</span><span class="m-dot">✦</span>
+    <span class="m-item">Chrome & Foils</span><span class="m-dot">✦</span>
+    <span class="m-item">Bridal Sets</span><span class="m-dot">✦</span>
+    <span class="m-item">Nail Repair</span><span class="m-dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="about-photos">
+    <div class="ap-main">
+      <img class="ap-main-img" src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=800&q=80&fit=crop&crop=top" alt="Studio"/>
+    </div>
+    <div class="ap-sm">
+      <img class="ap-sm-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80&fit=crop" alt="Nail art detail"/>
+    </div>
+    <div class="ap-sm">
+      <img class="ap-sm-img" src="https://images.unsplash.com/photo-1632345031435-8727f592d8db?w=400&q=80&fit=crop" alt="Tools"/>
+    </div>
+    <div class="ap-label"><p class="apl-text">Est. 2019 · Baltic Triangle</p></div>
+  </div>
+  <div class="about-content">
+    <p class="sec-eyebrow">About the Studio</p>
+    <h2 class="sec-title">More than a<br>manicure. It's<br><em>self-care.</em></h2>
+    <p class="body-text">Hi, I'm Lola — a nail artist based in Liverpool's Baltic Triangle. I've spent five years refining my craft, building a small and loyal clientele who come to me for precision, creativity, and a genuinely relaxing experience.</p>
+    <p class="body-text">My studio is calm, curated, and just for you. No rushing, no walk-ins. Every appointment is dedicated time for you to breathe, catch up on your podcast, and leave with nails you're genuinely obsessed with.</p>
+    <div class="about-sign">Lola x</div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <p class="sec-eyebrow">What I offer</p>
+    <h2 class="sec-title" style="font-size:clamp(44px,5.5vw,80px);line-height:0.9;">The <em>Services.</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="svc">
+      <div class="svc-number">01</div>
+      <div class="svc-name">Gel Extensions</div>
+      <p class="svc-desc">Full sets of gel extensions built to your chosen length and shape. The signature service — meticulous, long-lasting, and entirely bespoke.</p>
+      <div class="svc-price">From £55</div>
+    </div>
+    <div class="svc">
+      <div class="svc-number">02</div>
+      <div class="svc-name">Nail Art</div>
+      <p class="svc-desc">From subtle single-line florals to detailed landscapes, each design is hand-painted and one of a kind. Bring your inspo or let me create something unique.</p>
+      <div class="svc-price">From £15 per design</div>
+    </div>
+    <div class="svc">
+      <div class="svc-number">03</div>
+      <div class="svc-name">BIAB & Soft Gel</div>
+      <p class="svc-desc">Builder gel in a bottle for strength and durability without the length. Perfect for natural nail lovers who want something hardwearing and gorgeous.</p>
+      <div class="svc-price">From £40</div>
+    </div>
+    <div class="svc">
+      <div class="svc-number">04</div>
+      <div class="svc-name">Gel Polish</div>
+      <p class="svc-desc">Classic gel polish on natural nails. Shine, no chips, lasts weeks. Available with or without additional nail art or chrome finish.</p>
+      <div class="svc-price">From £30</div>
+    </div>
+    <div class="svc">
+      <div class="svc-number">05</div>
+      <div class="svc-name">Bridal Nails</div>
+      <p class="svc-desc">Bespoke bridal packages including a trial run before the big day. I work with brides to design a set that complements the dress, venue, and vibe perfectly.</p>
+      <div class="svc-price">From £75</div>
+    </div>
+    <div class="svc">
+      <div class="svc-number">06</div>
+      <div class="svc-name">Soak Off & Infills</div>
+      <p class="svc-desc">Maintaining your existing set with care. All removals include a mini treatment to keep natural nails healthy and strong between appointments.</p>
+      <div class="svc-price">From £20</div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header">
+    <div>
+      <p class="sec-eyebrow">The work</p>
+      <h2 class="sec-title" style="font-size:clamp(36px,5vw,64px);">Recent <em>Sets.</em></h2>
+    </div>
+    <a href="https://instagram.com" style="font-size:11px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--taupe);text-decoration:none;">View Instagram →</a>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=700&q=80&fit=crop" alt="Nail art"/></div>
+    <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop&crop=right" alt="Nails"/></div>
+    <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80&fit=crop" alt="Nail polish"/></div>
+    <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1632345031435-8727f592d8db?w=400&q=80&fit=crop" alt="Tools"/></div>
+    <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop&crop=left" alt="Detail"/></div>
+    <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1578439291afe-e55f89bdde88?w=400&q=80&fit=crop" alt="Pink nails"/></div>
+    <div class="gallery-item"><img class="gallery-img" src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&fit=crop&crop=top" alt="Nails close"/></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="process-inner">
+    <p style="font-size:10px;font-weight:500;letter-spacing:0.26em;text-transform:uppercase;color:var(--blush-mid);margin-bottom:14px;">How it works</p>
+    <h2 style="font-family:var(--font-display);font-size:clamp(44px,5.5vw,72px);line-height:0.9;color:var(--cream);">From booking<br>to <em style="font-style:italic;color:var(--blush);">beautiful.</em></h2>
+    <div class="process-steps">
+      <div class="step"><div class="step-num">01</div><div class="step-name">Book Online</div><p class="step-desc">Choose your service and select a time that works. You'll receive a confirmation and reminder the day before.</p></div>
+      <div class="step"><div class="step-num">02</div><div class="step-name">Nail Consult</div><p class="step-desc">We'll chat about shape, length, colour, and any inspo you've saved. This is where the magic starts.</p></div>
+      <div class="step"><div class="step-num">03</div><div class="step-name">The Treatment</div><p class="step-desc">Sit back, relax, and enjoy. The studio is calm and quiet — yours for the full appointment time.</p></div>
+      <div class="step"><div class="step-num">04</div><div class="step-name">Leave Obsessed</div><p class="step-desc">Leave with nails you'll be photographing all week. Aftercare advice included with every appointment.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews">
+  <div class="reviews-inner">
+    <p class="sec-eyebrow" style="text-align:center;">Client love</p>
+    <h2 class="sec-title" style="text-align:center;font-size:clamp(44px,5.5vw,72px);">What they <em>say.</em></h2>
+    <div class="reviews-grid">
+      <div class="review-card"><div class="rev-stars">★★★★★</div><p class="rev-text">"I've been coming to Lola for over a year and I will never go anywhere else. She takes so much time and care — every set is genuinely beautiful."</p><div class="rev-name">Sophie M.</div><div class="rev-service">Gel Extensions + Nail Art</div></div>
+      <div class="review-card"><div class="rev-stars">★★★★★</div><p class="rev-text">"Lola did my bridal nails and I cried when I saw them. She listened to everything I wanted and created something beyond what I imagined. Absolutely stunning."</p><div class="rev-name">Charlotte W.</div><div class="rev-service">Bridal Package</div></div>
+      <div class="review-card"><div class="rev-stars">★★★★★</div><p class="rev-text">"The most relaxing appointment I've ever had. Studio is gorgeous, Lola is brilliant, and my nails lasted four weeks without a chip. Booked again before I left."</p><div class="rev-name">Priya D.</div><div class="rev-service">BIAB + Chrome</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <p class="sec-eyebrow" style="text-align:center;">Investment</p>
+    <h2 class="sec-title" style="text-align:center;font-size:clamp(44px,5.5vw,72px);">The <em>Pricing.</em></h2>
+    <div class="price-list">
+      <div class="price-row"><div><div class="pr-name">Gel Extensions — Full Set</div><div class="pr-desc">Includes prep, extensions, colour, and finish</div></div><div style="text-align:right;"><div class="pr-price">£55</div></div></div>
+      <div class="price-row"><div><div class="pr-name">BIAB / Soft Gel</div><div class="pr-desc">Strengthening treatment on natural nails</div></div><div style="text-align:right;"><div class="pr-price">£40</div></div></div>
+      <div class="price-row"><div><div class="pr-name">Gel Polish</div><div class="pr-desc">Classic gel on natural nails — short or long</div></div><div style="text-align:right;"><div class="pr-price">£30</div></div></div>
+      <div class="price-row"><div><div class="pr-name">Infill / Rebalance</div><div class="pr-desc">Maintaining your existing set</div></div><div style="text-align:right;"><div class="pr-price">£35</div></div></div>
+      <div class="price-row"><div><div class="pr-name">Nail Art</div><div class="pr-desc">Per design — complexity determines exact price</div></div><div style="text-align:right;"><div class="pr-price">From £15</div></div></div>
+      <div class="price-row"><div><div class="pr-name">Bridal Package</div><div class="pr-desc">Trial + wedding day set + consultation</div></div><div style="text-align:right;"><div class="pr-price">From £75</div></div></div>
+      <div class="price-row"><div><div class="pr-name">Soak Off</div><div class="pr-desc">Safe removal including mini nail treatment</div></div><div style="text-align:right;"><div class="pr-price">£20</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <div class="booking-inner">
+    <div class="booking-info">
+      <p class="sec-eyebrow">Get in touch</p>
+      <h2 class="bi-title">Ready to<br>Book Your<br><em>Set?</em></h2>
+      <p class="bi-body">Fill out the form and I'll be in touch within 24 hours to confirm your appointment. Alternatively, DM me on Instagram — I love a chat.</p>
+      <div class="bi-detail">
+        <div class="bid"><div class="bid-icon">📍</div><div><div class="bid-label">Location</div><div class="bid-val">Baltic Triangle, Liverpool L1</div></div></div>
+        <div class="bid"><div class="bid-icon">🕐</div><div><div class="bid-label">Hours</div><div class="bid-val">Tue–Sat · 9am–6pm</div></div></div>
+        <div class="bid"><div class="bid-icon">📩</div><div><div class="bid-label">Email</div><div class="bid-val"><a href="mailto:hello@lolanails.co.uk?subject=Appointment%20enquiry">hello@lolanails.co.uk</a></div></div></div>
+        <div class="bid"><div class="bid-icon">📸</div><div><div class="bid-label">Instagram</div><div class="bid-val">@lolanailsstudio</div></div></div>
+      </div>
+    </div>
+    <form
+      class="booking-form"
+      name="nail-appointment"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      action="/api/lead"
+    >
+      <input type="hidden" name="form-name" value="nail-appointment"/>
+      <p class="visually-hidden"><label>Do not fill this in: <input type="text" name="bot-field" autocomplete="off" tabindex="-1"/></label></p>
+      <div class="form-group"><label class="form-label" for="nail-full-name">Full Name</label><input class="form-input" id="nail-full-name" name="full_name" type="text" required autocomplete="name" placeholder="First and last name"/></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label" for="nail-email">Email</label><input class="form-input" id="nail-email" name="email" type="email" required autocomplete="email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label class="form-label" for="nail-phone">Phone</label><input class="form-input" id="nail-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+44 ..."/></div>
+      </div>
+      <div class="form-group"><label class="form-label" for="nail-treatment">Treatment</label>
+        <select class="form-select" id="nail-treatment" name="treatment" required>
+          <option value="">Choose a service...</option>
+          <option value="Gel Extensions — Full Set">Gel Extensions — Full Set</option>
+          <option value="BIAB / Soft Gel">BIAB / Soft Gel</option>
+          <option value="Gel Polish">Gel Polish</option>
+          <option value="Infill / Rebalance">Infill / Rebalance</option>
+          <option value="Nail Art (add-on)">Nail Art (add-on)</option>
+          <option value="Bridal Package">Bridal Package</option>
+          <option value="Soak Off">Soak Off</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label" for="nail-date">Preferred Date</label><input class="form-input" id="nail-date" name="preferred_date" type="date" required/></div>
+        <div class="form-group"><label class="form-label" for="nail-time">Preferred Time</label>
+          <select class="form-select" id="nail-time" name="preferred_time" required><option value="">Select...</option><option value="Morning">Morning</option><option value="Afternoon">Afternoon</option><option value="No preference">No preference</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label" for="nail-notes">Notes</label><textarea class="form-textarea" id="nail-notes" name="notes" placeholder="Tell me what you're thinking — colours, shape, vibe, any inspo saved..."></textarea></div>
+      <button class="btn-book" type="submit">Book Appointment</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <div class="footer-logo">Lola <span>Nails</span></div>
+    <p class="footer-tagline">Bespoke nail art and premium nail care in Liverpool's Baltic Triangle. By appointment only.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Services</div>
+    <ul class="footer-links">
+      <li><a href="#services">Gel Extensions</a></li>
+      <li><a href="#services">Nail Art</a></li>
+      <li><a href="#services">BIAB & Soft Gel</a></li>
+      <li><a href="#services">Bridal Nails</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Studio</div>
+    <ul class="footer-links">
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#booking">Book a Set</a></li>
+      <li><a href="https://instagram.com/lolanailsstudio" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Contact</div>
+    <ul class="footer-links">
+      <li><a href="mailto:hello@lolanails.co.uk?subject=Appointment%20enquiry">hello@lolanails.co.uk</a></li>
+      <li><a href="https://instagram.com/lolanailsstudio" target="_blank" rel="noopener noreferrer">@lolanailsstudio</a></li>
+      <li><a href="#booking">Baltic Triangle, Liverpool</a></li>
+      <li><a href="#booking">Tue–Sat · 9am–6pm</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Lola Nails Studio. All rights reserved.</div>
+    <div class="footer-credit">Site by <a href="https://novarastudios.co.uk" target="_blank" rel="noopener noreferrer">Novara Studios Ltd</a> · Co. 17025468</div>
+  </div>
+</footer>
+
+<script>
+// cursor
+const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{
+  dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},70);
+});
+
+// scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(el=>{
+    if(el.isIntersecting){
+      el.target.style.opacity='1';
+      el.target.style.transform='translateY(0)';
+      el.target.style.transition='opacity 0.7s ease,transform 0.7s ease';
+    }
+  });
+},{threshold:0.08});
+document.querySelectorAll('.svc,.review-card,.gallery-item,.step,.price-row').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(18px)';obs.observe(el);
+});
+
+(function(){
+  const toggle=document.getElementById('navToggle');
+  const backdrop=document.getElementById('navBackdrop');
+  const panel=document.getElementById('navMobile');
+  if(!toggle||!backdrop||!panel)return;
+  function openMenu(){
+    backdrop.hidden=false;
+    panel.hidden=false;
+    requestAnimationFrame(function(){
+      backdrop.classList.add('is-open');
+      panel.classList.add('is-open');
+    });
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Close menu');
+    document.body.style.overflow='hidden';
+  }
+  function closeMenu(){
+    backdrop.classList.remove('is-open');
+    panel.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Open menu');
+    document.body.style.overflow='';
+    setTimeout(function(){
+      backdrop.hidden=true;
+      panel.hidden=true;
+    },320);
+  }
+  function menuOpen(){return toggle.getAttribute('aria-expanded')==='true';}
+  toggle.addEventListener('click',function(){menuOpen()?closeMenu():openMenu();});
+  backdrop.addEventListener('click',closeMenu);
+  panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeMenu);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menuOpen())closeMenu();});
+  window.addEventListener('resize',function(){if(window.innerWidth>960&&menuOpen())closeMenu();});
+})();
+</script>
+</body>
+</html>

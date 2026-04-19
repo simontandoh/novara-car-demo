@@ -1,0 +1,14 @@
+:root {
+  --navy: #0f1f3d;
+  --navy-mid: #162545;
+  --navy-light: #1d2f55;
+  --white: #fafaf8;
+  --off: #f4f2ee;
+  --slate: #e8e4dc;
+  --gold: #b8963e;
+  --muted: #7a8090;
+  --dark: #0a0f1a;
+  --border: rgba(15, 31, 61, 0.1);
+  --font-d: var(--font-libre), "Libre Baskerville", serif;
+  --font-b: var(--font-dm), "DM Sans", sans-serif;
+}

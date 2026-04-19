@@ -1,0 +1,11 @@
+:root {
+  --black: #0a0a0a;
+  --white: #f8f6f2;
+  --warm: #f0ede7;
+  --muted: rgba(10, 10, 10, 0.42);
+  --border: rgba(10, 10, 10, 0.1);
+  --accent: #1a1a1a;
+  --light-muted: rgba(248, 246, 242, 0.55);
+  --font-display: var(--font-cormorant), "Cormorant Garamond", serif;
+  --font-body: var(--font-dm-sans), "DM Sans", sans-serif;
+}

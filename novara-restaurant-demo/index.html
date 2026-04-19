@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Calabash — Caribbean Soul Kitchen, Liverpool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --terra:#C1440E;--terra-dark:#8B2F08;--gold:#D4A832;
+  --cream:#FAF5EC;--cream-dark:#F0E8D8;--brown:#3D2012;--green:#2D5016;
+  --white:#FFFDF8;--muted:#8A7060;
+  --font-display:'Playfair Display',serif;--font-body:'Nunito',sans-serif;
+}
+html{scroll-behavior:smooth;}
+section[id]{scroll-margin-top:92px;}
+body{background:var(--cream);color:var(--brown);font-family:var(--font-body);font-weight:300;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,245,236,0.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(61,32,18,0.1);display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;}
+.nav-logo{font-family:var(--font-display);font-weight:900;font-size:24px;letter-spacing:0.02em;color:var(--brown);text-decoration:none;font-style:italic;}
+.nav-logo span{color:var(--terra);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--terra);}
+.nav-book{font-weight:600;font-size:13px;letter-spacing:0.06em;color:var(--white);background:var(--terra);padding:12px 28px;text-decoration:none;border-radius:2px;transition:background 0.2s;}
+.nav-book:hover{background:var(--terra-dark);}
+.nav-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px;width:44px;height:44px;padding:0;border:1px solid rgba(61,32,18,0.15);background:transparent;cursor:pointer;border-radius:2px;transition:border-color 0.2s,background 0.2s;z-index:101;}
+.nav-toggle:hover{border-color:rgba(193,68,14,0.45);background:rgba(193,68,14,0.06);}
+.nav-toggle span{display:block;width:20px;height:2px;background:var(--brown);transition:transform 0.25s ease,opacity 0.2s;}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+.nav-mobile-backdrop{position:fixed;inset:0;z-index:99;background:rgba(61,32,18,0.45);opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s;}
+.nav-mobile-backdrop.is-open{opacity:1;visibility:visible;}
+.nav-mobile{position:fixed;top:0;right:0;z-index:100;width:min(100%,300px);height:100vh;background:var(--cream);border-left:1px solid rgba(61,32,18,0.12);padding:96px 24px 32px;transform:translateX(100%);transition:transform 0.3s ease;overflow-y:auto;box-shadow:-8px 0 32px rgba(61,32,18,0.08);}
+.nav-mobile.is-open{transform:translateX(0);}
+.nav-mobile ul{list-style:none;display:flex;flex-direction:column;gap:0;}
+.nav-mobile a{font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:block;padding:14px 0;border-bottom:1px solid rgba(61,32,18,0.08);transition:color 0.2s;}
+.nav-mobile a:hover{color:var(--terra);}
+.nav-mobile .nav-mobile-cta{margin-top:24px;display:block;text-align:center;font-weight:600;font-size:13px;letter-spacing:0.06em;color:var(--white);background:var(--terra);padding:14px 20px;text-decoration:none;border-radius:2px;transition:background 0.2s;}
+.nav-mobile .nav-mobile-cta:hover{background:var(--terra-dark);}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* HERO — full photo split */
+.hero{min-height:100vh;display:grid;grid-template-columns:55% 45%;padding-top:72px;}
+.hero-left{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
+.hero-left-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+.hero-left-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(61,32,18,0.97) 0%,rgba(61,32,18,0.55) 55%,rgba(61,32,18,0.15) 100%);}
+.hero-left-pattern{position:absolute;inset:0;opacity:0.04;background-image:radial-gradient(circle,var(--cream) 1px,transparent 1px);background-size:28px 28px;}
+.hero-left-content{position:relative;z-index:1;padding:60px 64px;}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(250,245,236,0.65);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:rgba(250,245,236,0.4);}
+h1{font-family:var(--font-display);font-weight:900;font-size:clamp(52px,6.5vw,88px);line-height:0.92;color:var(--cream);margin-bottom:24px;}
+h1 em{font-style:italic;color:var(--gold);display:block;}
+.hero-sub{font-size:15px;line-height:1.8;color:rgba(250,245,236,0.7);max-width:400px;margin-bottom:40px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-cream{font-weight:600;font-size:13px;letter-spacing:0.08em;color:var(--brown);background:var(--cream);padding:15px 36px;text-decoration:none;border-radius:2px;transition:opacity 0.2s;}
+.btn-cream:hover{opacity:0.9;}
+.btn-outline-cream{font-weight:600;font-size:13px;letter-spacing:0.08em;color:var(--cream);border:1px solid rgba(250,245,236,0.35);padding:14px 32px;text-decoration:none;border-radius:2px;transition:border-color 0.2s;}
+.btn-outline-cream:hover{border-color:var(--cream);}
+.hero-info{margin-top:48px;padding-top:24px;border-top:1px solid rgba(250,245,236,0.12);display:flex;gap:32px;flex-wrap:wrap;}
+.info-item{display:flex;flex-direction:column;gap:4px;}
+.info-label{font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:rgba(250,245,236,0.45);}
+.info-value{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--cream);}
+
+/* Hero right — food photo grid */
+.hero-right{display:grid;grid-template-rows:1fr 1fr;grid-template-columns:1fr 1fr;gap:3px;background:var(--brown);}
+.hero-right-photo{width:100%;height:100%;object-fit:cover;display:block;transition:filter 0.3s;}
+.hero-right-photo:hover{filter:brightness(1.1);}
+.hero-right-main{grid-row:1/-1;grid-column:1;}
+.hero-right-tag{grid-column:2;display:flex;align-items:center;justify-content:center;background:var(--terra);padding:20px;}
+.hero-right-tag-text{font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--cream);text-align:center;line-height:1.5;}
+
+/* TICKER */
+.ticker-wrap{background:var(--brown);padding:14px 0;overflow:hidden;}
+.ticker-inner{display:flex;white-space:nowrap;animation:ticker 24s linear infinite;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.ticker-item{padding:0 40px;font-family:var(--font-display);font-style:italic;font-size:15px;color:var(--gold);display:flex;align-items:center;gap:16px;}
+.ticker-dot{width:5px;height:5px;border-radius:50%;background:var(--terra);display:inline-block;}
+
+/* ABOUT */
+#about{padding:120px 48px;background:var(--white);}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto;}
+.about-visual{position:relative;}
+.about-img-main{width:100%;aspect-ratio:4/5;overflow:hidden;position:relative;}
+.about-img-main img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+.about-img-overlay{position:absolute;bottom:0;left:0;right:0;background:var(--terra);padding:20px 24px;}
+.about-img-overlay p{font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--cream);}
+.about-accent-box{position:absolute;top:-20px;right:-20px;background:var(--gold);width:120px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px;}
+.about-accent-num{font-family:var(--font-display);font-weight:900;font-size:40px;color:var(--brown);line-height:1;}
+.about-accent-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(61,32,18,0.6);}
+.section-label{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--terra);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.section-label::after{content:'';display:block;width:32px;height:1px;background:var(--terra);}
+.section-title{font-family:var(--font-display);font-weight:900;font-size:clamp(36px,4.5vw,60px);line-height:0.95;color:var(--brown);margin-bottom:20px;}
+.section-title em{font-style:italic;color:var(--terra);}
+.about-body{font-size:15px;line-height:1.85;color:var(--muted);margin-bottom:36px;}
+.about-signature{font-family:var(--font-display);font-style:italic;font-size:22px;color:var(--brown);margin-bottom:4px;}
+.about-sig-label{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+
+/* MENU */
+#menu{padding:100px 48px;background:var(--brown);}
+.menu-inner{max-width:1100px;margin:0 auto;}
+.menu-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:64px;flex-wrap:wrap;gap:24px;}
+.section-label-light{font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.section-label-light::after{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.section-title-light{font-family:var(--font-display);font-weight:900;font-size:clamp(36px,4.5vw,60px);line-height:0.95;color:var(--cream);}
+.section-title-light em{font-style:italic;color:var(--gold);}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.menu-card{background:rgba(250,245,236,0.05);border:1px solid rgba(250,245,236,0.07);overflow:hidden;transition:background 0.25s,border-color 0.25s;}
+.menu-card:hover{background:rgba(250,245,236,0.09);border-color:rgba(212,168,50,0.3);}
+.menu-card-photo{width:100%;height:180px;object-fit:cover;display:block;filter:brightness(0.85);transition:filter 0.3s,transform 0.4s;}
+.menu-card:hover .menu-card-photo{filter:brightness(1);transform:scale(1.04);}
+.menu-card-body{padding:24px 28px 32px;}
+.menu-category{font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.menu-dish{font-family:var(--font-display);font-size:19px;font-weight:700;color:var(--cream);margin-bottom:8px;}
+.menu-desc{font-size:13px;line-height:1.7;color:rgba(250,245,236,0.5);margin-bottom:16px;}
+.menu-price{font-family:var(--font-display);font-size:20px;color:var(--gold);}
+
+/* EXPERIENCE */
+#experience{padding:100px 48px;background:var(--cream);}
+.experience-inner{max-width:1100px;margin:0 auto;}
+.experience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:64px;}
+.exp-card{overflow:hidden;position:relative;}
+.exp-card-photo{width:100%;height:240px;object-fit:cover;display:block;filter:brightness(0.75);transition:filter 0.3s,transform 0.4s;}
+.exp-card:hover .exp-card-photo{filter:brightness(0.9);transform:scale(1.04);}
+.exp-card-body{background:var(--white);padding:28px 28px 32px;}
+.exp-title{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--brown);margin-bottom:10px;}
+.exp-desc{font-size:14px;line-height:1.75;color:var(--muted);}
+
+/* REVIEWS */
+#reviews{background:var(--terra);padding:100px 48px;}
+.reviews-inner{max-width:1100px;margin:0 auto;}
+.reviews-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:24px;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.review-card{background:rgba(250,245,236,0.1);padding:36px 28px;border:1px solid rgba(250,245,236,0.1);}
+.review-quote{font-family:var(--font-display);font-size:48px;color:var(--gold);line-height:0.8;margin-bottom:14px;opacity:0.6;}
+.review-text{font-size:14px;line-height:1.8;color:rgba(250,245,236,0.8);margin-bottom:24px;font-style:italic;}
+.review-stars{display:flex;gap:3px;margin-bottom:14px;}
+.star{color:var(--gold);font-size:13px;}
+.review-author{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--cream);}
+.review-location{font-size:12px;color:rgba(250,245,236,0.5);}
+
+/* BOOK */
+#book{padding:0;background:var(--cream-dark);}
+.book-inner{display:grid;grid-template-columns:1fr 1fr;}
+.book-photo-wrap{position:relative;overflow:hidden;min-height:500px;}
+.book-photo{width:100%;height:100%;object-fit:cover;display:block;}
+.book-content{padding:100px 64px;display:flex;flex-direction:column;justify-content:center;}
+.book-title{font-family:var(--font-display);font-weight:900;font-size:clamp(36px,5vw,64px);line-height:0.93;color:var(--brown);margin-bottom:16px;}
+.book-title em{font-style:italic;color:var(--terra);}
+.book-sub{font-size:15px;line-height:1.75;color:var(--muted);margin-bottom:10px;}
+.book-quick-contact{border:1px solid rgba(61,32,18,0.1);background:rgba(255,253,248,0.85);padding:22px 24px;margin-bottom:28px;border-radius:2px;}
+.book-quick-contact p{font-size:14px;line-height:1.65;color:var(--muted);margin:0 0 12px;}
+.book-quick-contact p:last-child{margin-bottom:0;}
+.book-quick-contact a{color:var(--terra);font-weight:600;text-decoration:none;}
+.book-quick-contact a:hover{text-decoration:underline;}
+.book-quick-contact .book-quick-line{font-family:var(--font-display);font-style:italic;font-size:15px;color:var(--brown);}
+.book-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;}
+.btn-terra{font-weight:600;font-size:13px;letter-spacing:0.08em;color:var(--white);background:var(--terra);padding:16px 40px;text-decoration:none;border-radius:2px;transition:background 0.2s;}
+.btn-terra:hover{background:var(--terra-dark);}
+.btn-outline-terra{font-weight:600;font-size:13px;letter-spacing:0.08em;color:var(--terra);border:1px solid var(--terra);padding:15px 32px;text-decoration:none;border-radius:2px;transition:background 0.2s,color 0.2s;}
+.btn-outline-terra:hover{background:var(--terra);color:var(--white);}
+.booking-form{margin-top:0;max-width:100%;}
+.booking-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.booking-form-fields{display:flex;flex-direction:column;gap:14px;}
+.booking-field label{display:block;font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.booking-field input,.booking-field select,.booking-field textarea{width:100%;font-family:var(--font-body);font-size:14px;font-weight:400;color:var(--brown);background:var(--white);border:1px solid rgba(61,32,18,0.12);padding:14px 16px;border-radius:2px;transition:border-color 0.2s;}
+.booking-field input:focus,.booking-field select:focus,.booking-field textarea:focus{outline:none;border-color:rgba(193,68,14,0.45);}
+.booking-field textarea{min-height:88px;resize:vertical;}
+.booking-optional{font-weight:400;letter-spacing:0;opacity:0.65;text-transform:none;}
+.booking-form .btn-terra{width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:4px;}
+.form-success-booking{margin-top:20px;padding:24px 20px;border:1px solid rgba(61,32,18,0.1);background:rgba(250,245,236,0.6);border-radius:2px;text-align:center;}
+.form-success-booking h3{font-family:var(--font-display);font-weight:900;font-size:clamp(26px,4vw,40px);line-height:1;color:var(--brown);margin-bottom:10px;}
+.form-success-booking p{font-size:14px;line-height:1.7;color:var(--muted);}
+.form-success-booking a{color:var(--terra);font-weight:600;text-decoration:none;}
+.form-success-booking a:hover{text-decoration:underline;}
+
+footer{background:var(--brown);padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.footer-logo{font-family:var(--font-display);font-weight:900;font-style:italic;font-size:22px;color:var(--cream);text-decoration:none;display:inline-block;}
+.footer-logo span{color:var(--gold);}
+.footer-links{display:flex;flex-wrap:wrap;gap:20px;list-style:none;justify-content:center;}
+.footer-links a{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(250,245,236,0.45);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-info{font-size:12px;color:rgba(250,245,236,0.45);line-height:1.7;text-align:center;flex:1;min-width:200px;}
+.footer-info a{color:var(--gold);text-decoration:none;font-weight:600;}
+.footer-info a:hover{text-decoration:underline;}
+.footer-credit{font-size:11px;color:rgba(250,245,236,0.4);flex-basis:100%;text-align:center;}
+.footer-credit a{color:var(--gold);text-decoration:none;}
+.footer-credit a:hover{text-decoration:underline;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{opacity:0;animation:fadeUp 0.65s ease forwards;}
+.d1{animation-delay:0.1s;}.d2{animation-delay:0.25s;}.d3{animation-delay:0.4s;}.d4{animation-delay:0.55s;}
+
+@media(max-width:900px){
+  nav{padding:0 20px;}.nav-links{display:none;}
+  .nav-toggle{display:flex;}
+  .nav-mobile,.nav-mobile-backdrop{display:block;}
+  .hero{grid-template-columns:1fr;}.hero-right{display:none;}
+  .hero-left-content{padding:60px 24px;}
+  #about,#menu,#experience,#reviews{padding:72px 20px;}
+  .about-inner{grid-template-columns:1fr;gap:48px;}
+  .about-accent-box{top:-12px;right:-12px;width:90px;height:90px;}
+  .about-accent-num{font-size:28px;}
+  .menu-grid,.experience-grid,.reviews-grid{grid-template-columns:1fr;}
+  .book-inner{grid-template-columns:1fr;}
+  .book-photo-wrap{min-height:260px;}
+  .book-content{padding:60px 24px;}
+  .booking-row-2{grid-template-columns:1fr;}
+  footer{flex-direction:column;align-items:flex-start;padding:28px 20px;}
+}
+@media(min-width:901px){
+  .nav-mobile,.nav-mobile-backdrop{display:none!important;}
+}
+</style>
+</head>
+<body id="top">
+<header>
+<nav aria-label="Primary">
+  <a href="#top" class="nav-logo"><em>Calabash<span>.</span></em></a>
+  <ul class="nav-links">
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMobile" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#book" class="nav-book">Reserve a Table</a>
+</nav>
+<div class="nav-mobile-backdrop" id="navBackdrop" hidden></div>
+<nav class="nav-mobile" id="navMobile" aria-label="Mobile" hidden>
+  <ul>
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#book">Reserve</a></li>
+  </ul>
+  <a href="#book" class="nav-mobile-cta">Reserve a table</a>
+</nav>
+</header>
+
+<main>
+<section class="hero" aria-label="Introduction">
+  <div class="hero-left">
+    <img class="hero-left-photo" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=85&fit=crop&crop=center" alt="Caribbean restaurant atmosphere"/>
+    <div class="hero-left-overlay"></div>
+    <div class="hero-left-pattern"></div>
+    <div class="hero-left-content">
+      <p class="hero-eyebrow fade-up d1">Caribbean Soul Kitchen · Liverpool</p>
+      <h1 class="fade-up d2">Food that<br><em>Feeds</em><br>the Soul.</h1>
+      <p class="hero-sub fade-up d3">Authentic Caribbean cooking rooted in Jamaican and West African tradition. Bold flavours, honest ingredients, and the kind of warmth you feel before you've even sat down.</p>
+      <div class="hero-actions fade-up d4">
+        <a href="#book" class="btn-cream">Reserve a Table</a>
+        <a href="#menu" class="btn-outline-cream">View Menu</a>
+      </div>
+      <div class="hero-info fade-up d4">
+        <div class="info-item"><span class="info-label">Open</span><span class="info-value">Tue–Sun</span></div>
+        <div class="info-item"><span class="info-label">Hours</span><span class="info-value">12pm–10pm</span></div>
+        <div class="info-item"><span class="info-label">Location</span><span class="info-value">Baltic Triangle</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img class="hero-right-photo hero-right-main" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=85&fit=crop&crop=center" alt="Caribbean food spread"/>
+    <img class="hero-right-photo" src="https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=500&q=80&fit=crop&crop=center" alt="Jerk chicken"/>
+    <div class="hero-right-tag"><p class="hero-right-tag-text">Today's Special:<br><strong>Jerk Chicken & Festival</strong></p></div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Jerk Chicken <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Oxtail Stew <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Ackee & Saltfish <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Curry Goat <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Rice & Peas <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Plantain <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Rum Punch <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Festival <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Jerk Chicken <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Oxtail Stew <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Ackee & Saltfish <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Curry Goat <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Rice & Peas <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Plantain <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Rum Punch <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Festival <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual">
+      <div class="about-img-main">
+        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=700&q=85&fit=crop&crop=top" alt="Chef Marcus Williams"/>
+        <div class="about-img-overlay"><p>"Every dish starts with a memory."</p></div>
+      </div>
+      <div class="about-accent-box">
+        <div class="about-accent-num">18</div>
+        <div class="about-accent-label">Years of Cooking</div>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">Born in<br><em>Kingston.</em><br>Cooked in<br>Liverpool.</h2>
+      <p class="about-body">Calabash was born from a kitchen table in Kingston, Jamaica — passed down through three generations of cooks who believed food was the highest expression of love and culture.<br><br>Chef Marcus Williams brought those recipes to Liverpool in 2009. Since then, Calabash has become a fixture in the Baltic Triangle — a place where the Caribbean diaspora eats, celebrates, and feels at home, and where curious Liverpudlians discover flavours they'll come back for again and again.</p>
+      <div class="about-signature">Marcus Williams</div>
+      <div class="about-sig-label">Head Chef & Founder</div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="menu-inner">
+    <div class="menu-header">
+      <div>
+        <p class="section-label-light">Menu Highlights</p>
+        <h2 class="section-title-light">The Dishes<br>People <em>Return</em><br>For.</h2>
+      </div>
+      <a href="#menu" style="font-size:13px;font-weight:600;letter-spacing:0.08em;color:var(--gold);text-decoration:none;border:1px solid rgba(212,168,50,0.4);padding:12px 28px;border-radius:2px;white-space:nowrap;">Full Menu →</a>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <img class="menu-card-photo" src="https://images.unsplash.com/photo-1532636875304-0bde4f661ae9?w=600&q=80&fit=crop&crop=center" alt="Jerk chicken"/>
+        <div class="menu-card-body">
+          <div class="menu-category">Signature Mains</div>
+          <div class="menu-dish">Scotch Bonnet Jerk Chicken</div>
+          <p class="menu-desc">Slow-marinated overnight in a house jerk blend, cooked over wood charcoal. Served with rice and peas and festival.</p>
+          <div class="menu-price">£17.50</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-photo" src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80&fit=crop&crop=center" alt="Oxtail stew"/>
+        <div class="menu-card-body">
+          <div class="menu-category">Sunday Favourite</div>
+          <div class="menu-dish">Brown Stew Oxtail</div>
+          <p class="menu-desc">Braised low and slow for six hours. Rich gravy, butter beans, and sweet plantain on the side.</p>
+          <div class="menu-price">£21.00</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-photo" src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80&fit=crop&crop=center" alt="Curry goat"/>
+        <div class="menu-card-body">
+          <div class="menu-category">West Indian Classic</div>
+          <div class="menu-dish">Curry Goat</div>
+          <p class="menu-desc">Slow-cooked with Scotch bonnet, fresh thyme, and Caribbean curry spices. Served with roti or rice.</p>
+          <div class="menu-price">£18.50</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-photo" src="https://images.unsplash.com/photo-1559058789-672da06263d8?w=600&q=80&fit=crop&crop=center" alt="Fish dish"/>
+        <div class="menu-card-body">
+          <div class="menu-category">National Dish</div>
+          <div class="menu-dish">Ackee & Saltfish</div>
+          <p class="menu-desc">The taste of home. Sautéed with onions, sweet peppers, thyme, and a hint of Scotch bonnet.</p>
+          <div class="menu-price">£14.00</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-photo" src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80&fit=crop&crop=center" alt="Vegetable bowl"/>
+        <div class="menu-card-body">
+          <div class="menu-category">Plant-Based</div>
+          <div class="menu-dish">Callaloo & Roasted Veg Bowl</div>
+          <p class="menu-desc">Braised callaloo with roasted sweet potato, jerk-seasoned chickpeas, and coconut rice.</p>
+          <div class="menu-price">£13.50</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-photo" src="https://images.unsplash.com/photo-1497534446932-c925b458314e?w=600&q=80&fit=crop&crop=center" alt="Rum punch cocktail"/>
+        <div class="menu-card-body">
+          <div class="menu-category">Drinks</div>
+          <div class="menu-dish">Rum Punch & Sorrel</div>
+          <p class="menu-desc">House rum punch made fresh daily. Or our hibiscus sorrel — spiced with clove and ginger. Both excellent.</p>
+          <div class="menu-price">From £5.50</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="experience-inner">
+    <p class="section-label">The Experience</p>
+    <h2 class="section-title">More Than<br>a <em>Meal.</em></h2>
+    <div class="experience-grid">
+      <div class="exp-card">
+        <img class="exp-card-photo" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80&fit=crop&crop=center" alt="Live music"/>
+        <div class="exp-card-body">
+          <div class="exp-title">Live Music Fridays</div>
+          <p class="exp-desc">Every Friday evening from 7pm, live reggae and soul sets from local artists. No cover charge. Just come hungry.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <img class="exp-card-photo" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&fit=crop&crop=center" alt="Private dining"/>
+        <div class="exp-card-body">
+          <div class="exp-title">Private Dining</div>
+          <p class="exp-desc">A private room for up to 20 guests. Bespoke menus, full service, and the kind of setting that makes celebrations unforgettable.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <img class="exp-card-photo" src="https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=600&q=80&fit=crop&crop=center" alt="Catering event"/>
+        <div class="exp-card-body">
+          <div class="exp-title">Catering & Events</div>
+          <p class="exp-desc">Corporate lunches, birthdays, weddings — we bring Calabash to you. Custom menus from 20 to 200 guests.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="reviews-inner">
+    <div class="reviews-header">
+      <div>
+        <p class="section-label-light">What People Say</p>
+        <h2 class="section-title-light">Liverpool's<br><em>Favourite</em><br>Caribbean.</h2>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:var(--font-display);font-size:56px;font-weight:900;color:var(--cream);line-height:1;">4.9★</div>
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,245,236,0.5);">600+ Reviews</div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <p class="review-text">The oxtail is the best I've had outside of Jamaica. That's not a small statement — my grandmother would approve. We come here every month without fail.</p>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="review-author">Marcia A.</div><div class="review-location">Toxteth, Liverpool</div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <p class="review-text">Walked in not knowing what to expect. Walked out two hours later already planning the next visit. The jerk chicken and the rum punch — absolutely outstanding.</p>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="review-author">Tom F.</div><div class="review-location">City Centre, Liverpool</div>
+      </div>
+      <div class="review-card">
+        <div class="review-quote">"</div>
+        <p class="review-text">Booked the private room for my mum's 60th. Chef Marcus designed a custom menu around her favourites. Every single guest said it was the best event they'd been to in years.</p>
+        <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="review-author">Simone D.</div><div class="review-location">Aigburth, Liverpool</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="book" aria-labelledby="book-heading">
+  <div class="book-inner">
+    <div class="book-photo-wrap">
+      <img class="book-photo" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=85&fit=crop&crop=center" alt="Restaurant interior"/>
+    </div>
+    <div class="book-content">
+      <p class="section-label">Reservations</p>
+      <h2 class="book-title" id="book-heading">Come.<br><em>Eat.</em><br>Stay a While.</h2>
+      <p class="book-sub">Tables fill quickly on weekends — especially Friday evenings. Book ahead to avoid disappointment.</p>
+
+      <div class="book-quick-contact">
+        <p><a href="mailto:reservations@calabashliverpool.co.uk?subject=Table%20reservation">reservations@calabashliverpool.co.uk</a></p>
+        <p><a href="tel:+441512346789">+44 151 234 6789</a></p>
+        <p class="book-quick-line">Baltic Triangle, Liverpool</p>
+        <p class="book-quick-line">Tue–Sun · 12pm–10pm</p>
+      </div>
+
+      <form
+        id="booking-form"
+        class="booking-form"
+        name="table-booking"
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        action="/api/lead"
+      >
+        <input type="hidden" name="form-name" value="table-booking" />
+        <p class="visually-hidden">
+          <label>Do not fill this in: <input type="text" name="bot-field" autocomplete="off" tabindex="-1" /></label>
+        </p>
+        <div class="booking-form-fields" id="booking-form-fields">
+          <div class="booking-field">
+            <label for="book-name">Name</label>
+            <input type="text" id="book-name" name="name" required autocomplete="name" />
+          </div>
+          <div class="booking-field">
+            <label for="book-email">Email</label>
+            <input type="email" id="book-email" name="email" required autocomplete="email" />
+          </div>
+          <div class="booking-field">
+            <label for="book-phone">Phone</label>
+            <input type="tel" id="book-phone" name="phone" required autocomplete="tel" />
+          </div>
+          <div class="booking-row-2">
+            <div class="booking-field">
+              <label for="book-date">Date</label>
+              <input type="date" id="book-date" name="booking_date" required />
+            </div>
+            <div class="booking-field">
+              <label for="book-time">Time</label>
+              <input type="time" id="book-time" name="booking_time" required />
+            </div>
+          </div>
+          <div class="booking-field">
+            <label for="book-party">Party Size</label>
+            <select id="book-party" name="party_size" required>
+              <option value="">Select</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7+">7+</option>
+            </select>
+          </div>
+          <div class="booking-field">
+            <label for="book-notes">Notes <span class="booking-optional">(optional)</span></label>
+            <textarea id="book-notes" name="notes" rows="3" placeholder="Birthday, allergies, accessibility…"></textarea>
+          </div>
+          <button type="submit" class="btn-terra">Request Booking</button>
+        </div>
+      </form>
+
+      <div class="form-success-booking" id="booking-success" hidden role="status" aria-live="polite">
+        <h3>You're booked in</h3>
+        <p>Thanks — we’ll confirm your table by email shortly. Need to change something? Call us on <a href="tel:+441512346789">+44 151 234 6789</a>.</p>
+      </div>
+
+      <div class="book-actions">
+        <a href="tel:+441512346789" class="btn-outline-terra">Call +44 151 234 6789</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <a href="#top" class="footer-logo"><em>Calabash<span>.</span></em></a>
+  <div class="footer-info">Baltic Triangle, Liverpool · Tue–Sun, 12pm–10pm<br><a href="tel:+441512346789">+44 151 234 6789</a> · <a href="mailto:reservations@calabashliverpool.co.uk?subject=Calabash%20enquiry">reservations@calabashliverpool.co.uk</a></div>
+  <ul class="footer-links">
+    <li><a href="#book">Reserve</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="mailto:reservations@calabashliverpool.co.uk?subject=Calabash%20enquiry">Email</a></li>
+    <li><a href="#book">Privacy</a></li>
+  </ul>
+  <div class="footer-credit">Site by <a href="https://novarastudios.co.uk" target="_blank" rel="noopener noreferrer">Novara Studios Ltd</a> · Co. 17025468</div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)';x.target.style.transition='opacity 0.65s ease,transform 0.65s ease';}});},{threshold:0.08});
+document.querySelectorAll('.menu-card,.exp-card,.review-card,.about-visual,.about-content').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(20px)';obs.observe(el);});
+
+(function(){
+  const toggle=document.getElementById('navToggle'),backdrop=document.getElementById('navBackdrop'),panel=document.getElementById('navMobile');
+  if(!toggle||!backdrop||!panel)return;
+  function openMenu(){
+    backdrop.hidden=false;
+    panel.hidden=false;
+    requestAnimationFrame(function(){
+      backdrop.classList.add('is-open');
+      panel.classList.add('is-open');
+    });
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Close menu');
+    document.body.style.overflow='hidden';
+  }
+  function closeMenu(){
+    backdrop.classList.remove('is-open');
+    panel.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Open menu');
+    document.body.style.overflow='';
+    setTimeout(function(){
+      backdrop.hidden=true;
+      panel.hidden=true;
+    },320);
+  }
+  function menuOpen(){return toggle.getAttribute('aria-expanded')==='true';}
+  toggle.addEventListener('click',function(){menuOpen()?closeMenu():openMenu();});
+  backdrop.addEventListener('click',closeMenu);
+  panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeMenu);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menuOpen())closeMenu();});
+  window.addEventListener('resize',function(){if(window.innerWidth>900&&menuOpen())closeMenu();});
+})();
+
+(function(){
+  const form=document.getElementById('booking-form');
+  const fields=document.getElementById('booking-form-fields');
+  const success=document.getElementById('booking-success');
+  if(!form||!fields||!success)return;
+  form.addEventListener('submit',function(e){
+    if(typeof fetch!=='function')return;
+    e.preventDefault();
+    const params=new URLSearchParams(new FormData(form));
+    const action=form.getAttribute('action');
+    const url=action===null||action===''?window.location.pathname||'/':action;
+    fetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()})
+      .then(function(res){if(!res.ok)throw new Error();fields.hidden=true;success.hidden=false;form.setAttribute('data-submitted','true');success.scrollIntoView({behavior:'smooth',block:'nearest'});})
+      .catch(function(){form.submit();});
+  });
+})();
+</script>
+</body>
+</html>

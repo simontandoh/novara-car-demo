@@ -1,0 +1,305 @@
+.photographer-page.contact .contact-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.photographer-page.contact .ch-photo {
+  position: relative;
+  overflow: hidden;
+}
+
+.photographer-page.contact .ch-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  min-height: 600px;
+  filter: brightness(0.8);
+}
+
+.photographer-page.contact .ch-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.1) 100%);
+}
+
+.photographer-page.contact .ch-caption {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  right: 32px;
+}
+
+.photographer-page.contact .ch-cap-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(248, 246, 242, 0.8);
+  line-height: 1.5;
+}
+
+.photographer-page.contact .ch-form {
+  padding: 80px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--warm);
+}
+
+.photographer-page.contact .form-eyebrow {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.photographer-page.contact .form-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 0.9;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+
+.photographer-page.contact .form-title em {
+  font-style: italic;
+}
+
+.photographer-page.contact .form-group {
+  margin-bottom: 18px;
+}
+
+.photographer-page.contact .form-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.photographer-page.contact .form-input,
+.photographer-page.contact .form-select,
+.photographer-page.contact .form-textarea {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--black);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.photographer-page.contact .form-input:focus,
+.photographer-page.contact .form-select:focus,
+.photographer-page.contact .form-textarea:focus {
+  border-color: var(--black);
+}
+
+.photographer-page.contact .form-textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.photographer-page.contact .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.photographer-page.contact .form-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.photographer-page.contact .btn-submit {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--black);
+  padding: 16px 40px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+  transition: opacity 0.2s;
+}
+
+.photographer-page.contact .btn-submit:hover {
+  opacity: 0.75;
+}
+
+.photographer-page.contact .info-strip {
+  padding: 64px 56px;
+  background: var(--black);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.photographer-page.contact .info-block {
+  padding: 32px 28px;
+  border-right: 1px solid rgba(248, 246, 242, 0.06);
+}
+
+.photographer-page.contact .info-block:last-child {
+  border-right: none;
+}
+
+.photographer-page.contact .ib-label {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(248, 246, 242, 0.3);
+  margin-bottom: 12px;
+}
+
+.photographer-page.contact .ib-val {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.4;
+}
+
+.photographer-page.contact .ib-sub {
+  font-size: 12px;
+  color: rgba(248, 246, 242, 0.35);
+  margin-top: 6px;
+}
+
+.photographer-page.contact .pricing {
+  padding: 100px 56px;
+  background: var(--white);
+}
+
+.photographer-page.contact .pricing-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.photographer-page.contact .sec-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.photographer-page.contact .sec-title {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 80px);
+  line-height: 0.9;
+  font-weight: 300;
+  color: var(--black);
+  margin-bottom: 56px;
+}
+
+.photographer-page.contact .sec-title em {
+  font-style: italic;
+}
+
+.photographer-page.contact .price-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.photographer-page.contact .price-row {
+  background: var(--warm);
+  padding: 28px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  transition: background 0.2s;
+}
+
+.photographer-page.contact .price-row:hover {
+  background: #e8e4dc;
+}
+
+.photographer-page.contact .pr-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--black);
+  margin-bottom: 4px;
+}
+
+.photographer-page.contact .pr-desc {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.photographer-page.contact .pr-price {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--black);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.photographer-page.contact .pr-per {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.photographer-page.contact .price-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 24px;
+  line-height: 1.7;
+}
+
+@media (max-width: 960px) {
+  .photographer-page.contact .contact-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .photographer-page.contact .ch-photo {
+    min-height: 360px;
+  }
+
+  .photographer-page.contact .ch-form {
+    padding: 60px 24px;
+  }
+
+  .photographer-page.contact .info-strip {
+    grid-template-columns: 1fr 1fr;
+    padding: 56px 24px;
+  }
+
+  .photographer-page.contact .info-block {
+    border-right: none;
+    border-bottom: 1px solid rgba(248, 246, 242, 0.06);
+  }
+
+  .photographer-page.contact .pricing {
+    padding: 72px 24px;
+  }
+
+  .photographer-page.contact .form-row {
+    grid-template-columns: 1fr;
+  }
+}

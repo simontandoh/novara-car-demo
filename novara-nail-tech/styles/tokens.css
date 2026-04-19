@@ -1,0 +1,9 @@
+:root {
+  --color-background: #f5f7fb;
+  --color-foreground: #142033;
+  --color-surface: #ffffff;
+  --color-border: #d8dfeb;
+  --color-muted: #5b6678;
+  --color-accent: #2a6df4;
+  --font-sans: "Segoe UI", Arial, sans-serif;
+}

@@ -1,0 +1,226 @@
+.photographer-page.portfolio .page-hero {
+  padding: 160px 56px 64px;
+  background: var(--warm);
+  border-bottom: 1px solid var(--border);
+}
+
+.photographer-page.portfolio .ph-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.photographer-page.portfolio .ph-title {
+  font-family: var(--font-display);
+  font-size: clamp(60px, 9vw, 120px);
+  line-height: 0.88;
+  font-weight: 300;
+}
+
+.photographer-page.portfolio .ph-title em {
+  font-style: italic;
+}
+
+.photographer-page.portfolio .filter-bar {
+  padding: 28px 56px;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  position: sticky;
+  top: 80px;
+  z-index: 100;
+}
+
+.photographer-page.portfolio .filter-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.photographer-page.portfolio .filter-btns {
+  display: flex;
+  gap: 0;
+}
+
+.photographer-page.portfolio .filter-btn {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+}
+
+.photographer-page.portfolio .filter-btn.active,
+.photographer-page.portfolio .filter-btn:hover {
+  color: var(--black);
+  border-bottom-color: var(--black);
+}
+
+.photographer-page.portfolio .gallery {
+  padding: 56px;
+}
+
+.photographer-page.portfolio .gallery-grid {
+  columns: 3;
+  column-gap: 4px;
+}
+
+.photographer-page.portfolio .g-item {
+  break-inside: avoid;
+  margin-bottom: 4px;
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.photographer-page.portfolio .g-photo {
+  width: 100%;
+  display: block;
+  filter: brightness(0.92);
+  transition:
+    filter 0.35s,
+    transform 0.5s;
+}
+
+.photographer-page.portfolio .g-item:hover .g-photo {
+  filter: brightness(1);
+  transform: scale(1.03);
+}
+
+.photographer-page.portfolio .g-ov {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.65) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.photographer-page.portfolio .g-item:hover .g-ov {
+  opacity: 1;
+}
+
+.photographer-page.portfolio .g-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 18px;
+  transform: translateY(6px);
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.photographer-page.portfolio .g-item:hover .g-info {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.photographer-page.portfolio .g-cat {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(248, 246, 242, 0.65);
+}
+
+.photographer-page.portfolio .g-name {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--white);
+}
+
+.photographer-page.portfolio .categories {
+  padding: 80px 56px;
+  background: var(--black);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.photographer-page.portfolio .cat-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+}
+
+.photographer-page.portfolio .cat-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.55) grayscale(20%);
+  transition:
+    filter 0.4s,
+    transform 0.5s;
+}
+
+.photographer-page.portfolio .cat-card:hover .cat-photo {
+  filter: brightness(0.75) grayscale(0%);
+  transform: scale(1.05);
+}
+
+.photographer-page.portfolio .cat-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 20px;
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, transparent 100%);
+}
+
+.photographer-page.portfolio .cat-name {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.photographer-page.portfolio .cat-count {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(248, 246, 242, 0.5);
+}
+
+.photographer-page.portfolio .cat-link {
+  position: absolute;
+  inset: 0;
+}
+
+@media (max-width: 960px) {
+  .photographer-page.portfolio .page-hero,
+  .photographer-page.portfolio .gallery,
+  .photographer-page.portfolio .categories {
+    padding: 72px 24px;
+  }
+
+  .photographer-page.portfolio .filter-bar {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .photographer-page.portfolio .gallery-grid {
+    columns: 2;
+  }
+
+  .photographer-page.portfolio .categories {
+    grid-template-columns: 1fr 1fr;
+  }
+}

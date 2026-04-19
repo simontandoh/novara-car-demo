@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Celeste Vane — Content Creator & Lifestyle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#0D0D0D;--cream:#F7F4EE;--warm:#F0EBE1;--gold:#C8A96E;
+  --gold-light:#E8D5A8;--taupe:#7A6E62;--muted:#AFA298;--border:#DDD5C8;
+  --white:#FFFEF9;
+  --font-display:'Bodoni Moda',serif;--font-body:'Montserrat',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--black);font-family:var(--font-body);font-weight:300;overflow-x:hidden;cursor:none;}
+
+#cur-dot{position:fixed;width:7px;height:7px;background:var(--gold);border-radius:50%;transform:translate(-50%,-50%);z-index:9999;pointer-events:none;}
+#cur-ring{position:fixed;width:30px;height:30px;border:1px solid rgba(200,169,110,0.6);border-radius:50%;transform:translate(-50%,-50%);transition:all 0.22s ease;z-index:9998;pointer-events:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 56px;background:rgba(247,244,238,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--black);text-decoration:none;letter-spacing:0.04em;}
+.nav-logo em{font-style:italic;color:var(--gold);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:10px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:var(--taupe);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--black);}
+.nav-collab{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--white);background:var(--black);padding:12px 28px;text-decoration:none;transition:background 0.2s;}
+.nav-collab:hover{background:var(--gold);}
+.nav-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:6px;width:44px;height:44px;padding:0;border:1px solid var(--border);background:transparent;cursor:pointer;transition:border-color 0.2s,background 0.2s;}
+.nav-toggle:hover{border-color:rgba(13,13,13,0.25);background:rgba(13,13,13,0.04);}
+.nav-toggle span{display:block;width:20px;height:1px;background:var(--black);transition:transform 0.25s ease,opacity 0.2s;}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-mobile-backdrop{position:fixed;inset:0;background:rgba(13,13,13,0.48);z-index:499;opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s;}
+.nav-mobile-backdrop.is-open{opacity:1;visibility:visible;}
+.nav-mobile{position:fixed;top:0;right:0;width:min(100%,320px);height:100vh;z-index:500;background:var(--cream);border-left:1px solid var(--border);padding:96px 24px 32px;transform:translateX(100%);transition:transform 0.3s ease;overflow-y:auto;}
+.nav-mobile.is-open{transform:translateX(0);}
+.nav-mobile ul{list-style:none;display:flex;flex-direction:column;gap:0;}
+.nav-mobile a{display:block;padding:14px 0;border-bottom:1px solid var(--border);font-size:10px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:var(--taupe);text-decoration:none;transition:color 0.2s;}
+.nav-mobile a:hover{color:var(--black);}
+.nav-mobile-cta{margin-top:22px;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--white);background:var(--black);padding:14px 24px;text-align:center;text-decoration:none;border:none;display:block;}
+.nav-mobile-cta:hover{background:var(--gold);}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:flex;align-items:flex-end;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,0.85) 0%,rgba(13,13,13,0.2) 55%,rgba(13,13,13,0) 100%);}
+.hero-ov-left{position:absolute;inset:0;background:linear-gradient(to right,rgba(13,13,13,0.4) 0%,transparent 60%);}
+.hero-content{position:relative;z-index:2;padding:0 56px 72px;display:flex;justify-content:space-between;align-items:flex-end;width:100%;}
+.hero-left-text{}
+.hero-vol{font-family:var(--font-display);font-size:10px;font-weight:400;letter-spacing:0.36em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:14px;}
+.hero-vol::before{content:'';width:36px;height:1px;background:var(--gold);}
+h1{font-family:var(--font-display);font-size:clamp(68px,10vw,160px);line-height:0.84;font-weight:400;color:var(--white);letter-spacing:-0.01em;margin-bottom:32px;}
+h1 em{font-style:italic;}
+.hero-desc{font-size:13px;font-weight:300;letter-spacing:0.06em;color:rgba(255,254,249,0.6);max-width:380px;line-height:1.85;margin-bottom:36px;}
+.hero-acts{display:flex;gap:20px;align-items:center;}
+.btn-gold{font-size:10px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--black);background:var(--gold);padding:14px 36px;text-decoration:none;transition:opacity 0.2s;}
+.btn-gold:hover{opacity:0.85;}
+.btn-outline-w{font-size:10px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,254,249,0.75);border:1px solid rgba(255,254,249,0.25);padding:13px 30px;text-decoration:none;transition:border-color 0.2s,color 0.2s;}
+.btn-outline-w:hover{border-color:var(--white);color:var(--white);}
+.hero-stats{display:flex;flex-direction:column;gap:24px;align-items:flex-end;padding-bottom:8px;}
+.h-stat{}
+.hs-num{font-family:var(--font-display);font-size:40px;color:var(--white);font-weight:400;line-height:1;}
+.hs-label{font-size:10px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,254,249,0.45);margin-top:4px;text-align:right;}
+.hero-scroll{position:absolute;right:56px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:3;}
+.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,rgba(200,169,110,0.6));animation:scrollIn 2s ease infinite;}
+@keyframes scrollIn{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* TICKER */
+.ticker{background:var(--black);padding:13px 0;overflow:hidden;}
+.ticker-inner{display:flex;white-space:nowrap;animation:tick 18s linear infinite;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.t-item{font-family:var(--font-display);font-size:13px;font-style:italic;color:rgba(200,169,110,0.65);padding:0 28px;}
+.t-dot{color:var(--gold);padding:0 8px;}
+
+/* ABOUT / EDITORIAL SPLIT */
+.editorial{padding:100px 56px;background:var(--cream);display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.ed-photo-col{position:relative;}
+.ed-main-img{width:100%;height:100%;object-fit:cover;display:block;min-height:600px;filter:brightness(0.92) contrast(1.05);}
+.ed-photo-label{position:absolute;bottom:32px;left:32px;background:var(--cream);padding:14px 20px;}
+.epl-text{font-family:var(--font-display);font-style:italic;font-size:14px;color:var(--black);}
+.ed-content{padding:64px 64px;display:flex;flex-direction:column;justify-content:center;background:var(--warm);}
+.ed-issue{font-size:10px;font-weight:400;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+.ed-issue::before{content:'';width:28px;height:1px;background:var(--gold);}
+.ed-title{font-family:var(--font-display);font-size:clamp(36px,4.5vw,64px);line-height:0.92;font-weight:400;color:var(--black);margin-bottom:28px;}
+.ed-title em{font-style:italic;}
+.ed-body{font-size:13px;font-weight:300;line-height:2;color:var(--taupe);margin-bottom:20px;}
+.ed-sig{font-family:var(--font-display);font-size:32px;font-style:italic;color:var(--gold);margin-top:24px;}
+.ed-platforms{margin-top:36px;display:flex;gap:24px;flex-wrap:wrap;}
+.ep{display:flex;flex-direction:column;gap:4px;}
+.ep-num{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--black);}
+.ep-label{font-size:10px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);}
+
+/* CONTENT PILLARS */
+.pillars{padding:100px 56px;background:var(--black);}
+.pillars-inner{max-width:1100px;margin:0 auto;}
+.pillars-header{margin-bottom:64px;}
+.sec-sup{font-size:10px;font-weight:400;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.sec-title{font-family:var(--font-display);font-size:clamp(44px,6vw,88px);line-height:0.9;font-weight:400;color:var(--cream);}
+.sec-title em{font-style:italic;}
+.pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.pillar{background:rgba(247,244,238,0.04);border:1px solid rgba(247,244,238,0.06);padding:44px 32px;position:relative;overflow:hidden;transition:background 0.3s;}
+.pillar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.35s;}
+.pillar:hover{background:rgba(247,244,238,0.07);}
+.pillar:hover::after{transform:scaleX(1);}
+.pillar-emoji{font-size:28px;margin-bottom:20px;display:block;}
+.pillar-name{font-family:var(--font-display);font-size:22px;font-weight:400;color:var(--cream);margin-bottom:12px;line-height:1.2;}
+.pillar-name em{font-style:italic;}
+.pillar-desc{font-size:12px;font-weight:300;line-height:1.85;color:rgba(247,244,238,0.4);}
+
+/* PRESS FEATURE */
+.press{padding:80px 56px;background:var(--warm);border-top:1px solid var(--border);}
+.press-inner{max-width:1100px;margin:0 auto;}
+.press-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:48px;}
+.press-item{background:var(--cream);padding:28px 24px;text-align:center;}
+.press-pub{font-family:var(--font-display);font-size:20px;font-style:italic;color:rgba(13,13,13,0.25);transition:color 0.2s;}
+.press-item:hover .press-pub{color:var(--black);}
+
+/* CONTENT GRID / FEED */
+.feed{padding:100px 56px;background:var(--cream);}
+.feed-inner{max-width:1100px;margin:0 auto;}
+.feed-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;}
+.feed-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:4px;}
+.feed-item{position:relative;overflow:hidden;}
+.feed-img{width:100%;height:100%;object-fit:cover;display:block;min-height:220px;filter:brightness(0.88) contrast(1.05);transition:filter 0.4s,transform 0.5s;}
+.feed-item:hover .feed-img{filter:brightness(1) contrast(1.08);transform:scale(1.04);}
+.feed-item:first-child{grid-row:1/3;}
+.feed-item:first-child .feed-img{min-height:500px;}
+.feed-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,0.65) 0%,transparent 50%);opacity:0;transition:opacity 0.3s;}
+.feed-item:hover .feed-ov{opacity:1;}
+.feed-tag{position:absolute;bottom:0;left:0;right:0;padding:16px;transform:translateY(6px);opacity:0;transition:all 0.3s;}
+.feed-item:hover .feed-tag{transform:translateY(0);opacity:1;}
+.ft-cat{font-size:9px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
+.ft-cap{font-family:var(--font-display);font-size:15px;color:var(--white);font-style:italic;}
+
+/* BRAND KIT / COLLAB */
+.collab{padding:100px 56px;background:var(--black);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.collab-content{}
+.collab-visual{position:relative;}
+.collab-img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;object-position:top;filter:brightness(0.88) grayscale(15%);}
+.collab-badge{position:absolute;top:32px;right:-24px;width:120px;height:120px;background:var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.cb-text{font-family:var(--font-display);font-size:12px;font-style:italic;color:var(--black);line-height:1.3;}
+.collab-title{font-family:var(--font-display);font-size:clamp(44px,5.5vw,80px);line-height:0.9;color:var(--cream);margin-bottom:24px;}
+.collab-title em{font-style:italic;color:var(--gold);}
+.collab-body{font-size:13px;font-weight:300;line-height:2;color:rgba(247,244,238,0.5);margin-bottom:36px;max-width:440px;}
+.collab-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:40px;}
+.collab-list li{font-size:12px;font-weight:300;letter-spacing:0.08em;color:rgba(247,244,238,0.6);padding-left:20px;position:relative;}
+.collab-list li::before{content:'✦';position:absolute;left:0;color:var(--gold);font-size:9px;top:2px;}
+.btn-collab{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--black);background:var(--gold);padding:15px 40px;text-decoration:none;display:inline-block;transition:opacity 0.2s;}
+.btn-collab:hover{opacity:0.85;}
+
+/* TESTIMONIALS */
+.testimonials{padding:80px 56px;background:var(--warm);border-bottom:1px solid var(--border);}
+.test-inner{max-width:1000px;margin:0 auto;text-align:center;}
+.test-brand{font-size:10px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;}
+.test-quote{font-family:var(--font-display);font-size:clamp(20px,3vw,32px);font-style:italic;font-weight:400;line-height:1.6;color:var(--black);}
+.test-att{font-size:11px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-top:24px;}
+
+/* CONTACT / BOOKING */
+.contact{padding:100px 56px;background:var(--cream);}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;max-width:1100px;margin:0 auto;align-items:start;}
+.contact-left{}
+.contact-form{}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--taupe);display:block;margin-bottom:8px;}
+.form-input,.form-select,.form-textarea{width:100%;background:var(--white);border:1px solid var(--border);color:var(--black);font-family:var(--font-body);font-size:13px;font-weight:300;padding:13px 16px;outline:none;transition:border-color 0.2s;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold);}
+.form-textarea{height:110px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.btn-submit{font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--white);background:var(--black);padding:16px 40px;border:none;cursor:pointer;width:100%;margin-top:8px;transition:background 0.2s;}
+.btn-submit:hover{background:var(--gold);}
+.contact-info{display:flex;flex-direction:column;gap:0;}
+.ci-block{padding:28px 0;border-bottom:1px solid var(--border);}
+.ci-block:first-child{padding-top:0;}
+.ci-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.ci-val{font-family:var(--font-display);font-size:18px;color:var(--black);}
+.ci-sub{font-size:12px;font-weight:300;color:var(--taupe);margin-top:4px;}
+.media-kit-btn{margin-top:32px;display:inline-block;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--black);border:1px solid var(--black);padding:13px 28px;text-decoration:none;transition:all 0.2s;}
+.media-kit-btn:hover{background:var(--black);color:var(--cream);}
+
+/* FOOTER */
+footer{background:var(--black);padding:56px;}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.footer-logo-block{}
+.footer-name{font-family:var(--font-display);font-size:28px;font-weight:400;color:var(--cream);}
+.footer-name em{font-style:italic;color:var(--gold);}
+.footer-handle{font-size:12px;font-weight:300;letter-spacing:0.12em;color:rgba(247,244,238,0.35);margin-top:8px;}
+.fc-title{font-size:10px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.fc-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.fc-links a{font-size:12px;font-weight:300;color:rgba(247,244,238,0.35);text-decoration:none;transition:color 0.2s;}
+.fc-links a:hover{color:var(--cream);}
+.footer-bottom{border-top:1px solid rgba(247,244,238,0.06);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.fb-copy{font-size:11px;color:rgba(247,244,238,0.22);}
+.fb-credit{font-size:11px;color:rgba(247,244,238,0.22);}
+.fb-credit a{color:var(--gold);text-decoration:none;}
+
+/* ANIM */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fu{opacity:0;animation:fadeUp 0.75s ease forwards;}
+.d1{animation-delay:0.1s;}.d2{animation-delay:0.28s;}.d3{animation-delay:0.46s;}.d4{animation-delay:0.64s;}
+
+@media(max-width:960px){
+  nav{padding:18px 20px;}.nav-links,.nav-collab{display:none;}.nav-toggle{display:flex;}
+  .hero-content{flex-direction:column;gap:32px;align-items:flex-start;padding:0 24px 56px;}
+  .hero-stats{flex-direction:row;gap:28px;align-items:flex-start;}
+  .hs-label{text-align:left;}
+  .editorial{grid-template-columns:1fr;}.ed-content{padding:48px 24px;}
+  .pillars{padding:72px 24px;}.pillars-grid{grid-template-columns:1fr 1fr;}
+  .press{padding:72px 24px;}.press-grid{grid-template-columns:repeat(3,1fr);}
+  .feed{padding:72px 24px;}.feed-grid{grid-template-columns:1fr 1fr;}
+  .feed-item:first-child{grid-row:auto;}.feed-item:first-child .feed-img{min-height:220px;}
+  .collab{grid-template-columns:1fr;padding:72px 24px;}
+  .testimonials,.contact{padding:72px 24px;}
+  .contact-inner{grid-template-columns:1fr;}
+  footer{padding:40px 24px;}.footer-top{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(min-width:961px){
+  .nav-mobile,.nav-mobile-backdrop{display:none!important;}
+}
+</style>
+</head>
+<body id="top">
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<nav>
+  <a href="#top" class="nav-logo"><em>Celeste</em> Vane</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#content">Content</a></li>
+    <li><a href="#collab">Collabs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMobile" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#contact" class="nav-collab">Work With Me</a>
+</nav>
+<div class="nav-mobile-backdrop" id="navBackdrop" hidden></div>
+<nav class="nav-mobile" id="navMobile" aria-label="Mobile" hidden>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#content">Content</a></li>
+    <li><a href="#collab">Collabs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-mobile-cta">Work With Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1920&q=85&fit=crop&crop=top" alt="Celeste Vane"/>
+  <div class="hero-ov"></div>
+  <div class="hero-ov-left"></div>
+  <div class="hero-scroll"><div class="scroll-line"></div></div>
+  <div class="hero-content">
+    <div class="hero-left-text">
+      <p class="hero-vol fu d1">Lifestyle · Fashion · Travel · Wellness</p>
+      <h1 class="fu d2"><em>Living</em><br>Out<br>Loud.</h1>
+      <p class="hero-desc fu d3">Content creator, stylist, and storyteller. I build authentic connections between people and the brands they love — through photography, video, and honest living.</p>
+      <div class="hero-acts fu d4">
+        <a href="#contact" class="btn-gold">Partner With Me</a>
+        <a href="#content" class="btn-outline-w">See My Work</a>
+      </div>
+    </div>
+    <div class="hero-stats fu d4">
+      <div class="h-stat"><div class="hs-num">284K</div><div class="hs-label">Instagram</div></div>
+      <div class="h-stat"><div class="hs-num">1.2M</div><div class="hs-label">TikTok</div></div>
+      <div class="h-stat"><div class="hs-num">4.8%</div><div class="hs-label">Avg Engagement</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="t-item">Lifestyle</span><span class="t-dot">✦</span>
+    <span class="t-item">Fashion</span><span class="t-dot">✦</span>
+    <span class="t-item">Travel</span><span class="t-dot">✦</span>
+    <span class="t-item">Wellness</span><span class="t-dot">✦</span>
+    <span class="t-item">Interior</span><span class="t-dot">✦</span>
+    <span class="t-item">Beauty</span><span class="t-dot">✦</span>
+    <span class="t-item">Food & Drink</span><span class="t-dot">✦</span>
+    <span class="t-item">Sustainability</span><span class="t-dot">✦</span>
+    <span class="t-item">Lifestyle</span><span class="t-dot">✦</span>
+    <span class="t-item">Fashion</span><span class="t-dot">✦</span>
+    <span class="t-item">Travel</span><span class="t-dot">✦</span>
+    <span class="t-item">Wellness</span><span class="t-dot">✦</span>
+    <span class="t-item">Interior</span><span class="t-dot">✦</span>
+    <span class="t-item">Beauty</span><span class="t-dot">✦</span>
+    <span class="t-item">Food & Drink</span><span class="t-dot">✦</span>
+    <span class="t-item">Sustainability</span><span class="t-dot">✦</span>
+  </div>
+</div>
+
+<!-- EDITORIAL ABOUT -->
+<section class="editorial" id="about">
+  <div class="ed-photo-col">
+    <img class="ed-main-img" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&q=80&fit=crop&crop=top" alt="Celeste Vane"/>
+    <div class="ed-photo-label"><p class="epl-text">Manchester-based · Global reach</p></div>
+  </div>
+  <div class="ed-content">
+    <p class="ed-issue">The Story</p>
+    <h2 class="ed-title">I create content<br>that <em>moves</em><br>people to act.</h2>
+    <p class="ed-body">I'm Celeste — a Manchester-based content creator with a community that genuinely trusts me. Over five years, I've built an audience that isn't just watching: they're clicking, buying, and talking about what I share.</p>
+    <p class="ed-body">My content lives at the intersection of beauty, slow living, and honest aspiration. I don't do unattainable. I do real life, beautifully presented — because that's what my audience actually responds to.</p>
+    <div class="ed-sig">Celeste x</div>
+    <div class="ed-platforms">
+      <div class="ep"><div class="ep-num">284K</div><div class="ep-label">Instagram</div></div>
+      <div class="ep"><div class="ep-num">1.2M</div><div class="ep-label">TikTok</div></div>
+      <div class="ep"><div class="ep-num">48K</div><div class="ep-label">YouTube</div></div>
+      <div class="ep"><div class="ep-num">4.8%</div><div class="ep-label">Engagement</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars" id="content">
+  <div class="pillars-inner">
+    <div class="pillars-header">
+      <p class="sec-sup">Content Categories</p>
+      <h2 class="sec-title">What I <em>Create.</em></h2>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar"><span class="pillar-emoji">🌿</span><div class="pillar-name">Lifestyle &<br><em>Slow Living</em></div><p class="pillar-desc">Morning routines, home styling, wellness rituals. The everyday made extraordinary — and deeply relatable.</p></div>
+      <div class="pillar"><span class="pillar-emoji">✈️</span><div class="pillar-name">Travel &<br><em>Culture</em></div><p class="pillar-desc">Long-form travel guides, destination aesthetics, solo female travel. My most-saved and shared content category.</p></div>
+      <div class="pillar"><span class="pillar-emoji">👗</span><div class="pillar-name">Fashion &<br><em>Style</em></div><p class="pillar-desc">Outfit ideas, styling tips, sustainable fashion. My audience skews 25–38, high purchase intent, fashion-forward.</p></div>
+      <div class="pillar"><span class="pillar-emoji">🌸</span><div class="pillar-name">Beauty &<br><em>Self-Care</em></div><p class="pillar-desc">Honest reviews, skincare routines, wellness rituals. Known for transparent, unsponsored opinions my audience trusts.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESS -->
+<section class="press">
+  <div class="press-inner">
+    <p class="sec-sup" style="color:var(--gold);">As Seen In</p>
+    <h2 style="font-family:var(--font-display);font-size:clamp(36px,4.5vw,60px);line-height:0.92;font-weight:400;color:var(--black);">Press &amp; <em style="font-style:italic;">Features.</em></h2>
+    <div class="press-grid">
+      <div class="press-item"><div class="press-pub">Vogue</div></div>
+      <div class="press-item"><div class="press-pub">Grazia</div></div>
+      <div class="press-item"><div class="press-pub">Stylist</div></div>
+      <div class="press-item"><div class="press-pub">The Times</div></div>
+      <div class="press-item"><div class="press-pub">Elle UK</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT FEED -->
+<section class="feed">
+  <div class="feed-inner">
+    <div class="feed-header">
+      <div>
+        <p class="sec-sup" style="color:var(--gold);font-size:10px;font-weight:400;letter-spacing:0.26em;text-transform:uppercase;margin-bottom:10px;">Recent Content</p>
+        <h2 style="font-family:var(--font-display);font-size:clamp(36px,5vw,68px);line-height:0.9;font-weight:400;">Latest <em style="font-style:italic;">Drops.</em></h2>
+      </div>
+      <a href="https://instagram.com" style="font-size:10px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--taupe);text-decoration:none;">Follow @celestevane →</a>
+    </div>
+    <div class="feed-grid">
+      <div class="feed-item"><img class="feed-img" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80&fit=crop&crop=top" alt="Celeste styling spring looks"/><div class="feed-ov"></div><div class="feed-tag"><div class="ft-cat">Fashion</div><div class="ft-cap">Spring edit: what I'm actually wearing</div></div></div>
+      <div class="feed-item"><img class="feed-img" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80&fit=crop" alt="Lifestyle morning routine content"/><div class="feed-ov"></div><div class="feed-tag"><div class="ft-cat">Lifestyle</div><div class="ft-cap">Sunday morning ritual</div></div></div>
+      <div class="feed-item"><img class="feed-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80&fit=crop" alt="Travel photo from Amalfi"/><div class="feed-ov"></div><div class="feed-tag"><div class="ft-cat">Travel</div><div class="ft-cap">48 hours in Amalfi</div></div></div>
+      <div class="feed-item"><img class="feed-img" src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=80&fit=crop" alt="Transitional fashion outfit capture"/><div class="feed-ov"></div><div class="feed-tag"><div class="ft-cat">Fashion</div><div class="ft-cap">Transitional dressing</div></div></div>
+      <div class="feed-item"><img class="feed-img" src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&q=80&fit=crop" alt="Wellness morning self-care moment"/><div class="feed-ov"></div><div class="feed-tag"><div class="ft-cat">Wellness</div><div class="ft-cap">My actual morning</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLAB / BRAND KIT -->
+<section class="collab" id="collab">
+  <div class="collab-content">
+    <p class="sec-sup" style="color:var(--gold);font-size:10px;font-weight:400;letter-spacing:0.26em;text-transform:uppercase;margin-bottom:20px;">Brand Partnerships</p>
+    <h2 class="collab-title">Let's Create<br><em>Something</em><br>Real.</h2>
+    <p class="collab-body">I partner with brands that I'd actually use — and brands that want to reach an audience that genuinely trusts the recommendations they see. No hard sell. No awkward product drops. Just honest, beautiful content that converts.</p>
+    <ul class="collab-list">
+      <li>Dedicated Instagram posts and Reels</li>
+      <li>TikTok integrations (organic-first approach)</li>
+      <li>Long-form YouTube features and reviews</li>
+      <li>Brand trips and event coverage</li>
+      <li>Ambassador partnerships (3+ months)</li>
+      <li>Photography and content licensing</li>
+    </ul>
+    <a href="#contact" class="btn-collab">Request Media Kit</a>
+  </div>
+  <div class="collab-visual">
+    <img class="collab-img" src="https://images.unsplash.com/photo-1545454675-3531b543be5d?w=700&q=80&fit=crop&crop=top" alt="Brand content"/>
+    <div class="collab-badge"><div class="cb-text">Avg<br>£0.08<br>CPE</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonials">
+  <div class="test-inner">
+    <p class="test-brand">Brand Partner — AURA Skincare</p>
+    <p class="test-quote">"Working with Celeste was effortless. She understood our brand voice immediately and created content that outperformed every other influencer we'd worked with by 3×. Her audience actually bought."</p>
+    <p class="test-att">Head of Brand, AURA Skincare · Campaign Partner 2024</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <p style="font-size:10px;font-weight:400;letter-spacing:0.26em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Get in touch</p>
+      <h2 style="font-family:var(--font-display);font-size:clamp(44px,5.5vw,80px);line-height:0.9;font-weight:400;margin-bottom:24px;">Work <em style="font-style:italic;">With Me.</em></h2>
+      <p style="font-size:13px;font-weight:300;line-height:2;color:var(--taupe);margin-bottom:40px;max-width:380px;">Whether you're a brand looking for a long-term partnership or a smaller project — I'd love to hear from you. Fill in the form and I'll respond within 48 hours.</p>
+      <div class="contact-info">
+        <div class="ci-block"><div class="ci-label">Email</div><div class="ci-val">celeste@celestevane.com</div><div class="ci-sub">Collabs, partnerships, media enquiries</div></div>
+        <div class="ci-block"><div class="ci-label">Management</div><div class="ci-val">hello@novaraagency.com</div><div class="ci-sub">For larger campaigns and brand deals</div></div>
+        <div class="ci-block"><div class="ci-label">Based</div><div class="ci-val">Manchester, UK</div><div class="ci-sub">Available for travel & global projects</div></div>
+      </div>
+      <a href="mailto:celeste@celestevane.com?subject=Media%20Kit%20Request" class="media-kit-btn">Download Media Kit →</a>
+    </div>
+    <form
+      class="contact-form"
+      name="creator-collaboration"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      action="/api/lead"
+    >
+      <input type="hidden" name="form-name" value="creator-collaboration"/>
+      <p class="visually-hidden"><label>Do not fill this in: <input type="text" name="bot-field" autocomplete="off" tabindex="-1"/></label></p>
+      <div class="form-group"><label class="form-label" for="collab-full-name">Full Name</label><input class="form-input" id="collab-full-name" name="full_name" type="text" required autocomplete="name" placeholder="First and last name"/></div>
+      <div class="form-group"><label class="form-label" for="collab-company">Brand / Company</label><input class="form-input" id="collab-company" name="brand_company" type="text" required placeholder="Brand or agency name"/></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label" for="collab-email">Email</label><input class="form-input" id="collab-email" name="email" type="email" required autocomplete="email" placeholder="your@brand.com"/></div>
+        <div class="form-group"><label class="form-label" for="collab-phone">Phone</label><input class="form-input" id="collab-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+44 ..."/></div>
+      </div>
+      <div class="form-group"><label class="form-label" for="collab-enquiry-type">Enquiry Type</label>
+        <select class="form-select" id="collab-enquiry-type" name="enquiry_type" required>
+          <option value="">Select...</option>
+          <option value="Instagram Post / Reel">Instagram Post / Reel</option>
+          <option value="TikTok Integration">TikTok Integration</option>
+          <option value="YouTube Feature">YouTube Feature</option>
+          <option value="Brand Ambassador (3+ months)">Brand Ambassador (3+ months)</option>
+          <option value="Photography / Content Licensing">Photography / Content Licensing</option>
+          <option value="Event Coverage">Event Coverage</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="collab-budget-range">Budget Range</label>
+        <select class="form-select" id="collab-budget-range" name="budget_range" required>
+          <option value="">Select...</option>
+          <option value="Under £500">Under £500</option>
+          <option value="£500 – £1,500">£500 – £1,500</option>
+          <option value="£1,500 – £5,000">£1,500 – £5,000</option>
+          <option value="£5,000 – £15,000">£5,000 – £15,000</option>
+          <option value="£15,000+">£15,000+</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="collab-message">Message</label><textarea class="form-textarea" id="collab-message" name="message" required placeholder="Brief description of the campaign, goals, timeline..."></textarea></div>
+      <button class="btn-submit" type="submit">Send Enquiry</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo-block">
+      <div class="footer-name"><em>Celeste</em> Vane</div>
+      <div class="footer-handle">@celestevane · 1.5M+ across platforms</div>
+    </div>
+    <div>
+      <div class="fc-title">Navigate</div>
+      <ul class="fc-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#content">Content</a></li>
+        <li><a href="#collab">Work With Me</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fc-title">Platforms</div>
+      <ul class="fc-links">
+        <li><a href="https://instagram.com/celestevane" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a href="https://tiktok.com/@celestevane" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+        <li><a href="https://youtube.com/@celestevane" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li><a href="https://pinterest.com/celestevane" target="_blank" rel="noopener noreferrer">Pinterest</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fc-title">Contact</div>
+      <ul class="fc-links">
+        <li><a href="mailto:celeste@celestevane.com?subject=Collaboration%20Enquiry">celeste@celestevane.com</a></li>
+        <li><a href="mailto:celeste@celestevane.com?subject=Media%20Kit%20Request">Download Media Kit</a></li>
+        <li><a href="#contact">Manchester, UK</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="fb-copy">© 2025 Celeste Vane. All rights reserved.</div>
+    <div class="fb-credit">Site by <a href="https://novarastudios.co.uk" target="_blank" rel="noopener noreferrer">Novara Studios Ltd</a> · Co. 17025468</div>
+  </div>
+</footer>
+
+<script>
+const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{
+  dot.style.left=e.clientX+'px';dot.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},75);
+});
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(el=>{
+    if(el.isIntersecting){
+      el.target.style.opacity='1';
+      el.target.style.transform='translateY(0)';
+      el.target.style.transition='opacity 0.75s ease,transform 0.75s ease';
+    }
+  });
+},{threshold:0.07});
+document.querySelectorAll('.pillar,.press-item,.feed-item,.ci-block').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(16px)';obs.observe(el);
+});
+
+(function(){
+  const toggle=document.getElementById('navToggle');
+  const backdrop=document.getElementById('navBackdrop');
+  const panel=document.getElementById('navMobile');
+  if(!toggle||!backdrop||!panel)return;
+  function openMenu(){
+    backdrop.hidden=false;
+    panel.hidden=false;
+    requestAnimationFrame(function(){
+      backdrop.classList.add('is-open');
+      panel.classList.add('is-open');
+    });
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Close menu');
+    document.body.style.overflow='hidden';
+  }
+  function closeMenu(){
+    backdrop.classList.remove('is-open');
+    panel.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Open menu');
+    document.body.style.overflow='';
+    setTimeout(function(){
+      backdrop.hidden=true;
+      panel.hidden=true;
+    },320);
+  }
+  function menuOpen(){return toggle.getAttribute('aria-expanded')==='true';}
+  toggle.addEventListener('click',function(){menuOpen()?closeMenu():openMenu();});
+  backdrop.addEventListener('click',closeMenu);
+  panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeMenu);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menuOpen())closeMenu();});
+  window.addEventListener('resize',function(){if(window.innerWidth>960&&menuOpen())closeMenu();});
+})();
+</script>
+</body>
+</html>

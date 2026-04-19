@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Onyx — Fine Dining, London</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300;1,400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#080706;--near-black:#0F0D0C;--charcoal:#181614;--charcoal-mid:#221E1B;
+  --gold:#C9A84C;--gold-light:#E2C47A;--cream:#F5F0E8;
+  --cream-dim:rgba(245,240,232,0.55);--muted:rgba(245,240,232,0.35);--border:rgba(201,168,76,0.12);
+  --font-display:'Cormorant Upright',serif;--font-italic:'Cormorant Garamond',serif;--font-body:'Outfit',sans-serif;
+}
+html{scroll-behavior:smooth;}
+section[id],#reservation-form{scroll-margin-top:100px;}
+#footer{scroll-margin-top:96px;}
+body{background:var(--black);color:var(--cream);font-family:var(--font-body);font-weight:200;overflow-x:hidden;cursor:none;}
+
+.cursor{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cursor-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(201,168,76,0.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.25s,height 0.25s,opacity 0.25s;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 56px;height:80px;}
+nav::after{content:'';position:absolute;bottom:0;left:56px;right:56px;height:1px;background:var(--border);}
+.nav-logo{font-family:var(--font-display);font-weight:300;font-size:28px;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);text-decoration:none;}
+.nav-links{display:flex;gap:48px;list-style:none;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-links a{font-size:10px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.25s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-reserve{font-size:10px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.35);padding:10px 28px;transition:background 0.25s,color 0.25s,border-color 0.25s;}
+.nav-reserve:hover{background:var(--gold);color:var(--black);border-color:var(--gold);}
+.nav-toggle{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;padding:0;border:1px solid var(--border);background:transparent;cursor:pointer;transition:border-color 0.25s,background 0.25s;z-index:101;}
+.nav-toggle:hover{border-color:rgba(201,168,76,0.45);background:rgba(201,168,76,0.06);}
+.nav-toggle span{display:block;width:20px;height:1px;background:var(--cream);transition:transform 0.25s ease,opacity 0.2s;}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.nav-mobile-backdrop{position:fixed;inset:0;z-index:99;background:rgba(8,7,6,0.65);opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s;}
+.nav-mobile-backdrop.is-open{opacity:1;visibility:visible;}
+.nav-mobile{position:fixed;top:0;right:0;z-index:100;width:min(100%,320px);height:100vh;background:var(--near-black);border-left:1px solid var(--border);padding:100px 28px 40px;transform:translateX(100%);transition:transform 0.3s ease;overflow-y:auto;}
+.nav-mobile.is-open{transform:translateX(0);}
+.nav-mobile ul{list-style:none;display:flex;flex-direction:column;gap:0;}
+.nav-mobile a{font-size:10px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:block;padding:16px 0;border-bottom:1px solid var(--border);transition:color 0.25s;}
+.nav-mobile a:hover{color:var(--gold);}
+.nav-mobile .nav-mobile-cta{margin-top:28px;font-size:10px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--black);background:var(--gold);border:1px solid var(--gold);padding:12px 24px;text-align:center;text-decoration:none;display:block;transition:background 0.25s,color 0.25s;}
+.nav-mobile .nav-mobile-cta:hover{background:var(--gold-light);color:var(--black);}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+/* HERO — full photo background */
+.hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 56px 0;}
+.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.hero-photo-overlay{position:absolute;inset:0;background:rgba(8,7,6,0.72);}
+.hero-glow{position:absolute;top:35%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none;}
+.hero-circle{position:absolute;border-radius:50%;border:1px solid var(--border);}
+.hc1{width:480px;height:480px;top:50%;left:50%;transform:translate(-50%,-50%);animation:rotate 60s linear infinite;}
+.hc2{width:680px;height:680px;top:50%;left:50%;transform:translate(-50%,-50%);animation:rotate 90s linear infinite reverse;}
+@keyframes rotate{from{transform:translate(-50%,-50%) rotate(0deg);}to{transform:translate(-50%,-50%) rotate(360deg);}}
+.hc1::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:5px;height:5px;background:var(--gold);border-radius:50%;margin-top:-2.5px;}
+.hero-content{position:relative;z-index:2;max-width:760px;}
+.hero-eyebrow{font-size:10px;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:36px;opacity:0;animation:fadeIn 1s ease 0.3s forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+h1{font-family:var(--font-display);font-weight:300;font-size:clamp(80px,12vw,160px);line-height:0.88;letter-spacing:0.06em;text-transform:uppercase;color:var(--cream);margin-bottom:36px;opacity:0;animation:fadeIn 1s ease 0.5s forwards;}
+.hero-sub{font-family:var(--font-italic);font-style:italic;font-size:clamp(18px,2.2vw,26px);font-weight:300;color:var(--gold-light);letter-spacing:0.04em;line-height:1.6;margin-bottom:56px;opacity:0;animation:fadeIn 1s ease 0.7s forwards;}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:48px;opacity:0;animation:fadeIn 1s ease 0.9s forwards;flex-wrap:wrap;}
+.btn-gold{font-size:10px;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--black);background:var(--gold);padding:16px 48px;text-decoration:none;transition:background 0.25s,transform 0.15s;display:inline-block;}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-ghost{font-size:10px;font-weight:300;letter-spacing:0.22em;text-transform:uppercase;color:var(--cream-dim);text-decoration:none;display:flex;align-items:center;gap:14px;transition:color 0.2s;}
+.btn-ghost:hover{color:var(--gold);}
+.btn-ghost-line{width:32px;height:1px;background:currentColor;transition:width 0.2s;}
+.btn-ghost:hover .btn-ghost-line{width:50px;}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn 1s ease 1.2s forwards;}
+.scroll-text{font-size:9px;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease infinite;}
+@keyframes scrollPulse{0%{opacity:0.3;}50%{opacity:1;}100%{opacity:0.3;}}
+
+/* DIVIDER */
+.section-divider{display:flex;align-items:center;justify-content:center;gap:24px;padding:60px 56px;}
+.divider-line{flex:1;max-width:240px;height:1px;background:var(--border);}
+.divider-diamond{color:var(--gold);font-size:10px;letter-spacing:0.2em;}
+
+/* PHILOSOPHY */
+#philosophy{padding:0 56px 120px;}
+.philosophy-inner{max-width:900px;margin:0 auto;text-align:center;}
+.section-eyebrow{font-size:10px;font-weight:300;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;}
+.section-title{font-family:var(--font-display);font-weight:300;font-size:clamp(44px,6vw,80px);line-height:0.92;text-transform:uppercase;color:var(--cream);}
+.section-title em{font-family:var(--font-italic);font-style:italic;color:var(--gold);}
+.philosophy-body{font-size:16px;font-weight:200;line-height:2.1;color:var(--cream-dim);max-width:640px;margin:40px auto 0;letter-spacing:0.04em;}
+
+/* MENU */
+#menu{padding:100px 56px;background:var(--near-black);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.menu-inner{max-width:1100px;margin:0 auto;}
+.menu-header{text-align:center;margin-bottom:80px;}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;}
+.menu-section{padding:56px 48px;background:var(--charcoal);}
+.menu-section-title{font-family:var(--font-display);font-weight:300;font-size:32px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.menu-section-sub{font-family:var(--font-italic);font-style:italic;font-size:14px;color:var(--muted);margin-bottom:40px;letter-spacing:0.04em;}
+.menu-items{display:flex;flex-direction:column;}
+.menu-item{padding:20px 0;border-bottom:1px solid rgba(201,168,76,0.08);display:flex;justify-content:space-between;align-items:flex-start;gap:20px;}
+.menu-item:last-child{border-bottom:none;}
+.menu-dish-name{font-family:var(--font-display);font-weight:400;font-size:17px;color:var(--cream);margin-bottom:5px;letter-spacing:0.04em;}
+.menu-dish-desc{font-size:12px;font-weight:200;color:var(--muted);letter-spacing:0.04em;line-height:1.6;max-width:320px;}
+.menu-dish-price{font-family:var(--font-display);font-size:16px;color:var(--gold);white-space:nowrap;margin-top:2px;}
+.tasting-note{margin-top:40px;padding:24px 28px;border:1px solid var(--border);background:rgba(201,168,76,0.03);}
+.tasting-note-label{font-size:9px;font-weight:300;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.tasting-note-text{font-family:var(--font-italic);font-style:italic;font-size:14px;color:var(--cream-dim);line-height:1.7;}
+.menu-tasting{grid-column:1/-1;background:var(--charcoal-mid);padding:56px 48px;text-align:center;border-top:1px solid var(--border);}
+.tasting-price-large{font-family:var(--font-display);font-size:clamp(48px,7vw,88px);font-weight:300;color:var(--gold);line-height:1;margin:16px 0;}
+.tasting-desc{font-size:13px;font-weight:200;color:var(--muted);max-width:500px;margin:0 auto 32px;line-height:1.8;letter-spacing:0.04em;}
+
+/* EXPERIENCE */
+#experience{padding:100px 56px;}
+.exp-inner{max-width:1100px;margin:0 auto;}
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:72px;}
+.exp-card{overflow:hidden;background:var(--charcoal);position:relative;}
+.exp-card-photo{width:100%;height:220px;object-fit:cover;display:block;filter:brightness(0.65) grayscale(20%);transition:filter 0.4s,transform 0.5s;}
+.exp-card:hover .exp-card-photo{filter:brightness(0.85) grayscale(0%);transform:scale(1.04);}
+.exp-card-body{padding:36px 36px 40px;}
+.exp-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0;transition:opacity 0.4s;}
+.exp-card:hover::after{opacity:1;}
+.exp-num{font-family:var(--font-display);font-size:72px;font-weight:300;color:rgba(201,168,76,0.06);line-height:1;margin-bottom:16px;}
+.exp-title{font-family:var(--font-display);font-weight:400;font-size:24px;color:var(--cream);margin-bottom:12px;letter-spacing:0.04em;}
+.exp-desc{font-size:13px;font-weight:200;line-height:1.9;color:var(--muted);letter-spacing:0.04em;}
+
+/* CHEF */
+#chef{padding:100px 56px;background:var(--near-black);border-top:1px solid var(--border);}
+.chef-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto;}
+.chef-visual{position:relative;overflow:hidden;}
+.chef-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;display:block;filter:brightness(0.85) grayscale(15%);transition:filter 0.4s;}
+.chef-visual:hover .chef-photo{filter:brightness(0.95) grayscale(0%);}
+.chef-photo-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(8,7,6,0.9) 0%,transparent 50%);padding:32px 28px;}
+.chef-photo-name{font-family:var(--font-display);font-size:22px;font-weight:300;letter-spacing:0.1em;text-transform:uppercase;color:var(--cream);margin-bottom:4px;}
+.chef-photo-title{font-family:var(--font-italic);font-style:italic;font-size:14px;color:var(--gold);}
+.chef-body{font-size:15px;font-weight:200;line-height:2.1;color:var(--cream-dim);margin:32px 0 44px;letter-spacing:0.04em;}
+.chef-awards{display:flex;flex-direction:column;border-top:1px solid var(--border);}
+.award{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--border);}
+.award-name{font-family:var(--font-display);font-size:16px;font-weight:400;color:var(--cream);letter-spacing:0.04em;}
+.award-year{font-size:11px;font-weight:300;letter-spacing:0.12em;color:var(--gold);}
+
+/* PRIVATE DINING */
+#private{padding:0;background:var(--charcoal-mid);}
+.private-inner{display:grid;grid-template-columns:1fr 1fr;}
+.private-photo-wrap{position:relative;overflow:hidden;min-height:560px;}
+.private-photo{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.75);}
+.private-photo-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--charcoal-mid) 100%);}
+.private-content{padding:80px 64px;display:flex;flex-direction:column;justify-content:center;}
+.private-body{font-size:15px;font-weight:200;line-height:2.1;color:var(--cream-dim);margin:28px 0 40px;letter-spacing:0.04em;}
+.private-list{list-style:none;display:flex;flex-direction:column;border-top:1px solid var(--border);}
+.private-list li{padding:14px 0;border-bottom:1px solid var(--border);font-size:13px;font-weight:200;color:var(--muted);letter-spacing:0.06em;display:flex;align-items:center;gap:14px;}
+.private-list li::before{content:'◆';color:var(--gold);font-size:7px;flex-shrink:0;}
+
+/* RESERVE CTA */
+#reserve{min-height:80vh;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
+.reserve-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:brightness(0.15);}
+.reserve-glow{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,0.12) 0%,transparent 65%);}
+.reserve-inner{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:100px 56px;}
+.reserve-title{font-family:var(--font-display);font-weight:300;font-size:clamp(64px,10vw,130px);line-height:0.88;text-transform:uppercase;letter-spacing:0.04em;color:var(--cream);margin-bottom:32px;}
+.reserve-title em{font-family:var(--font-italic);font-style:italic;color:var(--gold);}
+.reserve-sub{font-size:14px;font-weight:200;line-height:2;color:var(--muted);max-width:440px;margin:0 auto 40px;letter-spacing:0.06em;}
+.reservation-form{max-width:440px;margin:0 auto 28px;text-align:left;}
+.reservation-form-fields{display:flex;flex-direction:column;gap:14px;}
+.reservation-field label{display:block;font-size:9px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;opacity:0.85;}
+.reservation-field input,.reservation-field select,.reservation-field textarea{width:100%;font-family:var(--font-body);font-size:14px;font-weight:300;color:var(--cream);background:rgba(245,240,232,0.06);border:1px solid var(--border);padding:14px 16px;transition:border-color 0.25s;}
+.reservation-field input:focus,.reservation-field select:focus,.reservation-field textarea:focus{outline:none;border-color:rgba(201,168,76,0.45);}
+.reservation-field textarea{min-height:88px;resize:vertical;}
+.reservation-form .btn-gold{width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:6px;}
+.form-success-reserve{max-width:440px;margin:0 auto 24px;padding:28px 24px;border:1px solid var(--border);background:rgba(201,168,76,0.05);text-align:center;}
+.form-success-reserve h3{font-family:var(--font-display);font-weight:300;font-size:clamp(32px,6vw,52px);line-height:1;text-transform:uppercase;color:var(--cream);margin-bottom:12px;letter-spacing:0.06em;}
+.form-success-reserve p{font-size:14px;font-weight:200;line-height:1.85;color:var(--muted);letter-spacing:0.04em;}
+.form-success-reserve a{color:var(--gold);text-decoration:none;}
+.form-success-reserve a:hover{text-decoration:underline;}
+.reserve-actions{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:12px;}
+.reserve-private-note{font-size:10px;font-weight:200;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);margin-top:28px;opacity:0.85;}
+.reserve-note{margin-top:28px;font-size:10px;font-weight:200;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
+.reserve-note a{color:var(--gold);text-decoration:none;transition:opacity 0.2s;}
+.reserve-note a:hover{opacity:0.85;}
+
+footer{background:var(--black);border-top:1px solid var(--border);padding:56px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:32px;}
+.footer-logo{font-family:var(--font-display);font-weight:300;font-size:24px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);text-decoration:none;display:inline-block;}
+.footer-center{text-align:center;}
+.footer-address{font-size:11px;font-weight:200;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);line-height:2;}
+.footer-address a{color:var(--gold);text-decoration:none;transition:opacity 0.2s;}
+.footer-address a:hover{opacity:0.85;}
+.footer-links{display:flex;gap:32px;list-style:none;}
+.footer-links a{font-size:10px;font-weight:200;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-credit{width:100%;text-align:center;border-top:1px solid var(--border);padding-top:28px;margin-top:8px;font-size:10px;font-weight:200;color:rgba(245,240,232,0.2);}
+.footer-credit a{color:var(--gold);text-decoration:none;}
+
+@media(max-width:960px){
+  nav{padding:0 24px;}nav::after{left:24px;right:24px;}.nav-links{display:none;}
+  .nav-toggle{display:flex;}
+  .nav-mobile,.nav-mobile-backdrop{display:block;}
+  .hero,.hero-actions{flex-direction:column;}
+  #philosophy,#menu,#experience,#chef,#reserve{padding:72px 24px;}
+  .section-divider{padding:40px 24px;}
+  .menu-grid{grid-template-columns:1fr;}
+  .exp-grid{grid-template-columns:1fr;}
+  .chef-inner{grid-template-columns:1fr;gap:48px;}
+  .private-inner{grid-template-columns:1fr;}
+  .private-photo-wrap{min-height:300px;}
+  .private-photo-wrap::after{display:none;}
+  .private-content{padding:60px 24px;}
+  footer{flex-direction:column;align-items:flex-start;padding:36px 24px;}
+  .reserve-inner{padding:80px 24px;}
+}
+@media(min-width:961px){
+  .nav-mobile,.nav-mobile-backdrop{display:none!important;}
+}
+</style>
+</head>
+<body id="top">
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<header>
+<nav aria-label="Primary">
+  <a href="#top" class="nav-logo">Onyx</a>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#chef">The Chef</a></li>
+    <li><a href="#private">Private</a></li>
+    <li><a href="#reserve">Reserve</a></li>
+  </ul>
+  <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMobile" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#reserve" class="nav-reserve">Reserve</a>
+</nav>
+<div class="nav-mobile-backdrop" id="navBackdrop" hidden></div>
+<nav class="nav-mobile" id="navMobile" aria-label="Mobile" hidden>
+  <ul>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#chef">The Chef</a></li>
+    <li><a href="#private">Private</a></li>
+    <li><a href="#reserve">Reserve</a></li>
+  </ul>
+  <a href="#reserve" class="nav-mobile-cta">Reserve a table</a>
+</nav>
+</header>
+
+<main>
+<!-- HERO — atmospheric restaurant photo -->
+<section class="hero" aria-label="Introduction">
+  <img class="hero-photo" src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1920&q=85&fit=crop&crop=center" alt="Onyx fine dining interior"/>
+  <div class="hero-photo-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-circle hc1"></div>
+  <div class="hero-circle hc2"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Modern European Tasting Menu · Mayfair, London</p>
+    <h1>Onyx</h1>
+    <p class="hero-sub">Where restraint is the highest form of luxury,<br>and every plate is a conversation.</p>
+    <div class="hero-actions">
+      <a href="#reserve" class="btn-gold">Reserve Your Table</a>
+      <a href="#menu" class="btn-ghost">Explore the Menu <span class="btn-ghost-line"></span></a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-text">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="section-divider">
+  <div class="divider-line"></div>
+  <span class="divider-diamond">◆ &nbsp; ◆ &nbsp; ◆</span>
+  <div class="divider-line"></div>
+</div>
+
+<section id="philosophy">
+  <div class="philosophy-inner">
+    <p class="section-eyebrow">Our Philosophy</p>
+    <h2 class="section-title">Precision.<br><em>Restraint.</em><br>Memory.</h2>
+    <p class="philosophy-body">At Onyx, we believe that the most memorable meals are built on clarity — a single ingredient at its peak, a technique applied with total confidence, a pause on the palate that stays with you long after you've left the table. Seven courses. No performance. Just food that earns its place on the plate.</p>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="menu-inner">
+    <div class="menu-header">
+      <p class="section-eyebrow">The Menu</p>
+      <h2 class="section-title">Seven Courses.<br><em>One Conversation.</em></h2>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-section">
+        <div class="menu-section-title">Starters</div>
+        <div class="menu-section-sub">Seasonal, sourced weekly from British farms and coastlines</div>
+        <div class="menu-items">
+          <div class="menu-item"><div><div class="menu-dish-name">Orkney Scallop</div><div class="menu-dish-desc">Brown butter, Granny Smith apple, sea herbs, compressed cucumber</div></div><div class="menu-dish-price">£32</div></div>
+          <div class="menu-item"><div><div class="menu-dish-name">Heritage Beetroot</div><div class="menu-dish-desc">Goat's curd, walnut oil, aged balsamic, micro leaves from our kitchen garden</div></div><div class="menu-dish-price">£22</div></div>
+          <div class="menu-item"><div><div class="menu-dish-name">White Crab & Dashi</div><div class="menu-dish-desc">Cold-set dashi gel, hand-picked white crab, caviar, yuzu</div></div><div class="menu-dish-price">£38</div></div>
+        </div>
+        <div class="tasting-note"><div class="tasting-note-label">Chef's Note</div><div class="tasting-note-text">"The opener should wake you up, not fill you up. We begin with the sea."</div></div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-section-title">Mains</div>
+        <div class="menu-section-sub">All proteins sourced from named farms and aged in-house</div>
+        <div class="menu-items">
+          <div class="menu-item"><div><div class="menu-dish-name">Dry-Aged Hereford Beef</div><div class="menu-dish-desc">55-day aged fillet, bone marrow butter, smoked potato purée, black truffle jus</div></div><div class="menu-dish-price">£68</div></div>
+          <div class="menu-item"><div><div class="menu-dish-name">Line-Caught Turbot</div><div class="menu-dish-desc">Saffron velouté, hand-dived mussels, fennel, bronze fennel oil</div></div><div class="menu-dish-price">£58</div></div>
+          <div class="menu-item"><div><div class="menu-dish-name">Aged Duck Breast</div><div class="menu-dish-desc">Confit leg, bigarade sauce, Puy lentil, pomelo, winter leaves</div></div><div class="menu-dish-price">£52</div></div>
+        </div>
+        <div class="tasting-note"><div class="tasting-note-label">Chef's Note</div><div class="tasting-note-text">"The main course must carry the whole evening. It is never an afterthought."</div></div>
+      </div>
+      <div class="menu-tasting">
+        <p class="section-eyebrow">Signature Experience</p>
+        <h3 class="section-title" style="font-size:clamp(28px,4vw,48px);">The Onyx <em style="font-family:var(--font-italic);font-style:italic;color:var(--gold);">Tasting Menu</em></h3>
+        <div class="tasting-price-large">£165</div>
+        <p class="tasting-desc">Seven courses as a single progression. Paired wine flight available at £95 per person. Vegetarian version available with 48 hours notice. Minimum two guests.</p>
+        <a href="#reserve" class="btn-gold">Reserve for the Tasting Menu</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="exp-inner">
+    <div style="text-align:center;">
+      <p class="section-eyebrow">The Experience</p>
+      <h2 class="section-title">Every Detail<br><em style="font-family:var(--font-italic);font-style:italic;color:var(--gold);">Considered.</em></h2>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card">
+        <img class="exp-card-photo" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80&fit=crop&crop=center" alt="Onyx dining room"/>
+        <div class="exp-card-body">
+          <div class="exp-num">01</div>
+          <div class="exp-title">The Room</div>
+          <p class="exp-desc">Forty covers. No background noise. Designed so that conversation is always possible and the food is always the focus.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <img class="exp-card-photo" src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80&fit=crop&crop=center" alt="Wine programme"/>
+        <div class="exp-card-body">
+          <div class="exp-num">02</div>
+          <div class="exp-title">The Wine Programme</div>
+          <p class="exp-desc">A cellar built over twelve years. European focus, natural wine selection, and rare bottles available by the glass upon request.</p>
+        </div>
+      </div>
+      <div class="exp-card">
+        <img class="exp-card-photo" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&fit=crop&crop=center" alt="Fine dining service"/>
+        <div class="exp-card-body">
+          <div class="exp-num">03</div>
+          <div class="exp-title">The Service</div>
+          <p class="exp-desc">Attentive without intrusion. Every front-of-house team member can speak to each dish and each choice. Knowledge, not performance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="chef">
+  <div class="chef-inner">
+    <div class="chef-visual">
+      <img class="chef-photo" src="https://images.unsplash.com/photo-1583394293214-0b3b937f4b54?w=800&q=85&fit=crop&crop=top" alt="Chef Elian Markov"/>
+      <div class="chef-photo-overlay">
+        <div class="chef-photo-name">Elian Markov</div>
+        <div class="chef-photo-title">Executive Chef & Owner</div>
+      </div>
+    </div>
+    <div class="chef-content">
+      <p class="section-eyebrow">The Chef</p>
+      <h2 class="section-title">Trained in<br>Lyon. Built<br>in <em style="font-family:var(--font-italic);font-style:italic;color:var(--gold);">London.</em></h2>
+      <p class="chef-body">Elian Markov trained under three Michelin-starred kitchens across France and Spain before opening Onyx in 2017. His approach is rooted in classical French technique, applied with a restraint that lets British ingredients speak without interruption.<br><br>He does not believe in spectacle. He believes in the plate.</p>
+      <div class="chef-awards">
+        <div class="award"><span class="award-name">Michelin Star — First Awarded</span><span class="award-year">2019</span></div>
+        <div class="award"><span class="award-name">AA Four Rosettes</span><span class="award-year">2020</span></div>
+        <div class="award"><span class="award-name">OFM Best New Restaurant</span><span class="award-year">2018</span></div>
+        <div class="award"><span class="award-name">Good Food Guide — 9/10</span><span class="award-year">2023</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="private">
+  <div class="private-inner">
+    <div class="private-photo-wrap">
+      <img class="private-photo" src="https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=900&q=85&fit=crop&crop=center" alt="Private dining room"/>
+    </div>
+    <div class="private-content">
+      <p class="section-eyebrow">Private Dining</p>
+      <h2 class="section-title">The Room<br><em style="font-family:var(--font-italic);font-style:italic;color:var(--gold);">Is Yours.</em></h2>
+      <p class="private-body">Our private dining room seats up to sixteen guests. A separate kitchen team. A menu designed around your occasion. Available for corporate entertaining, milestone celebrations, and occasions where the setting must be impeccable.</p>
+      <ul class="private-list">
+        <li>Up to 16 guests in a separate private room</li>
+        <li>Bespoke menu in consultation with Chef Markov</li>
+        <li>Dedicated sommelier and front-of-house team</li>
+        <li>AV facilities available for presentations</li>
+        <li>Pre-dinner reception space with canapés</li>
+        <li>Available for both lunch and dinner service</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="reserve" aria-labelledby="reserve-heading">
+  <img class="reserve-photo" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1800&q=85&fit=crop&crop=center" alt="Fine dining table setting"/>
+  <div class="reserve-glow"></div>
+  <div class="reserve-inner">
+    <h2 class="reserve-title" id="reserve-heading">Your<br><em>Table</em><br>Awaits.</h2>
+    <p class="reserve-sub">Request a table or leave a note for our reservations desk. We confirm every booking personally — no automated confirmations, no noise.</p>
+
+    <form
+      id="reservation-form"
+      class="reservation-form"
+      name="table-reservation"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      action="/api/lead"
+    >
+      <input type="hidden" name="form-name" value="table-reservation" />
+      <p class="visually-hidden">
+        <label>Do not fill this in: <input type="text" name="bot-field" autocomplete="off" tabindex="-1" /></label>
+      </p>
+      <div class="reservation-form-fields" id="reservation-form-fields">
+        <div class="reservation-field">
+          <label for="res-name">Name</label>
+          <input type="text" id="res-name" name="name" required autocomplete="name" />
+        </div>
+        <div class="reservation-field">
+          <label for="res-email">Email</label>
+          <input type="email" id="res-email" name="email" required autocomplete="email" />
+        </div>
+        <div class="reservation-field">
+          <label for="res-phone">Phone</label>
+          <input type="tel" id="res-phone" name="phone" required autocomplete="tel" />
+        </div>
+        <div class="reservation-field">
+          <label for="res-date">Date</label>
+          <input type="text" id="res-date" name="reservation_date" placeholder="Preferred date" autocomplete="off" />
+        </div>
+        <div class="reservation-field">
+          <label for="res-time">Time</label>
+          <select id="res-time" name="time">
+            <option value="">Preferred time</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Early dinner (from 18:00)">Early dinner (from 18:00)</option>
+            <option value="19:00">19:00</option>
+            <option value="19:30">19:30</option>
+            <option value="20:00">20:00</option>
+            <option value="20:30">20:30</option>
+            <option value="Late">Late seating</option>
+            <option value="Flexible">Flexible</option>
+          </select>
+        </div>
+        <div class="reservation-field">
+          <label for="res-guests">Party size</label>
+          <select id="res-guests" name="party_size" required>
+            <option value="">Select</option>
+            <option value="1">1 guest</option>
+            <option value="2">2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+            <option value="5">5 guests</option>
+            <option value="6">6 guests</option>
+            <option value="7+">7 or more</option>
+          </select>
+        </div>
+        <div class="reservation-field">
+          <label for="res-notes">Notes <span style="opacity:0.6;">(optional)</span></label>
+          <textarea id="res-notes" name="notes" rows="3" placeholder="Dietary requirements, occasion, seating preference"></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Request Reservation</button>
+      </div>
+    </form>
+
+    <div class="form-success-reserve" id="reservation-success" hidden role="status" aria-live="polite">
+      <h3>Request received</h3>
+      <p>Thank you — our reservations team will confirm by email within one working day. For same-week tables, call <a href="tel:+442071234567">+44 20 7123 4567</a>.</p>
+    </div>
+
+    <p class="reserve-private-note">Private dining &amp; events</p>
+    <div class="reserve-actions">
+      <a href="mailto:events@onyxlondon.co.uk?subject=Private%20dining%20enquiry" class="btn-ghost">Private Dining Enquiry <span class="btn-ghost-line"></span></a>
+    </div>
+    <p class="reserve-note">Same-week availability — <a href="tel:+442071234567">+44 20 7123 4567</a></p>
+  </div>
+</section>
+</main>
+
+<footer id="footer">
+  <a href="#top" class="footer-logo">Onyx</a>
+  <div class="footer-center">
+    <div class="footer-address">14 Hay's Mews, Mayfair, London W1J 5PT<br><a href="tel:+442071234567">+44 20 7123 4567</a> · <a href="mailto:reservations@onyxlondon.co.uk?subject=Table%20reservation">reservations@onyxlondon.co.uk</a></div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+    <li><a href="#philosophy">Press</a></li>
+    <li><a href="#reserve">Privacy</a></li>
+  </ul>
+  <div class="footer-credit">Site by <a href="https://novarastudios.co.uk" target="_blank" rel="noopener noreferrer">Novara Studios Ltd</a> · Company 17025468. All rights reserved.</div>
+</footer>
+
+<script>
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function anim(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*0.08;ry+=(my-ry)*0.08;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,input,textarea,select,.exp-card,.menu-item,.nav-toggle').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='14px';cursor.style.height='14px';ring.style.width='44px';ring.style.height='44px';ring.style.opacity='0.5';});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='6px';cursor.style.height='6px';ring.style.width='28px';ring.style.height='28px';ring.style.opacity='1';});
+});
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)';x.target.style.transition='opacity 0.9s ease,transform 0.9s ease';}});},{threshold:0.07});
+document.querySelectorAll('.exp-card,.menu-item,.award,.private-list li').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(16px)';obs.observe(el);});
+
+(function(){
+  const toggle=document.getElementById('navToggle'),backdrop=document.getElementById('navBackdrop'),panel=document.getElementById('navMobile');
+  if(!toggle||!backdrop||!panel)return;
+  function openMenu(){
+    backdrop.hidden=false;
+    panel.hidden=false;
+    requestAnimationFrame(function(){
+      backdrop.classList.add('is-open');
+      panel.classList.add('is-open');
+    });
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Close menu');
+    document.body.style.overflow='hidden';
+  }
+  function closeMenu(){
+    backdrop.classList.remove('is-open');
+    panel.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Open menu');
+    document.body.style.overflow='';
+    setTimeout(function(){
+      backdrop.hidden=true;
+      panel.hidden=true;
+    },320);
+  }
+  function menuOpen(){return toggle.getAttribute('aria-expanded')==='true';}
+  toggle.addEventListener('click',function(){menuOpen()?closeMenu():openMenu();});
+  backdrop.addEventListener('click',closeMenu);
+  panel.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeMenu);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menuOpen())closeMenu();});
+  window.addEventListener('resize',function(){if(window.innerWidth>960&&menuOpen())closeMenu();});
+})();
+
+(function(){
+  const form=document.getElementById('reservation-form');
+  const fields=document.getElementById('reservation-form-fields');
+  const success=document.getElementById('reservation-success');
+  if(!form||!fields||!success)return;
+  form.addEventListener('submit',function(e){
+    if(typeof fetch!=='function')return;
+    e.preventDefault();
+    const params=new URLSearchParams(new FormData(form));
+    const action=form.getAttribute('action');
+    const url=action===null||action===''?window.location.pathname||'/':action;
+    fetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params.toString()})
+      .then(function(res){if(!res.ok)throw new Error();fields.hidden=true;success.hidden=false;form.setAttribute('data-submitted','true');success.scrollIntoView({behavior:'smooth',block:'nearest'});})
+      .catch(function(){form.submit();});
+  });
+})();
+</script>
+</body>
+</html>

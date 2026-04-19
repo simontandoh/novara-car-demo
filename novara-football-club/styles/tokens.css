@@ -1,0 +1,34 @@
+:root {
+  /* Redfield FC (primary demo) */
+  --red: #c8102e;
+  --red-dark: #9e0d24;
+  --black: #080808;
+  --white: #f8f8f6;
+  --white-alt: #f7f7f5;
+  --grey: #141414;
+  --grey-mid: #1e1e1e;
+  --grey-light: #2a2a2a;
+  --muted: rgba(248, 248, 246, 0.45);
+  --muted-alt: rgba(247, 247, 245, 0.45);
+  --border: rgba(248, 248, 246, 0.08);
+  --border-alt: rgba(247, 247, 245, 0.08);
+  --font-d: var(--font-anton), "Anton", sans-serif;
+  --font-c: var(--font-barlow-cond), "Barlow Condensed", sans-serif;
+  --font-b: var(--font-barlow), "Barlow", sans-serif;
+  /* Contact / club aliases */
+  --font-display: var(--font-d);
+  --font-cond: var(--font-c);
+  --font-body: var(--font-b);
+  /* Hale & Partners (team route) */
+  --hale-navy: #0f1f3d;
+  --hale-navy-light: #1d2f55;
+  --hale-white: #fafaf8;
+  --hale-off: #f4f2ee;
+  --hale-slate: #e8e4dc;
+  --hale-gold: #b8963e;
+  --hale-muted: #7a8090;
+  --hale-dark: #0a0f1a;
+  --hale-border: rgba(15, 31, 61, 0.1);
+  --font-hale-d: var(--font-libre), "Libre Baskerville", serif;
+  --font-hale-b: var(--font-dm), "DM Sans", sans-serif;
+}

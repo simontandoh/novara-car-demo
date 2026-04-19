@@ -1,0 +1,319 @@
+.photographer-page.about .about-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.photographer-page.about .ai-photo {
+  position: relative;
+  overflow: hidden;
+}
+
+.photographer-page.about .ai-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  min-height: 600px;
+  filter: brightness(0.88);
+}
+
+.photographer-page.about .ai-content {
+  padding: 80px 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--warm);
+}
+
+.photographer-page.about .ai-eyebrow {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.photographer-page.about .ai-title {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 5.5vw, 80px);
+  line-height: 0.9;
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+
+.photographer-page.about .ai-title em {
+  font-style: italic;
+}
+
+.photographer-page.about .ai-body {
+  font-size: 15px;
+  line-height: 1.95;
+  color: var(--muted);
+  max-width: 440px;
+}
+
+.photographer-page.about .ai-body p + p {
+  margin-top: 18px;
+}
+
+.photographer-page.about .ai-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.photographer-page.about .as-num {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 300;
+  color: var(--black);
+  line-height: 1;
+}
+
+.photographer-page.about .as-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.photographer-page.about .approach {
+  padding: 100px 56px;
+  background: var(--black);
+}
+
+.photographer-page.about .approach-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.photographer-page.about .sec-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(248, 246, 242, 0.35);
+  margin-bottom: 16px;
+}
+
+.photographer-page.about .sec-title {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 88px);
+  line-height: 0.9;
+  color: var(--white);
+  font-weight: 300;
+  margin-bottom: 64px;
+}
+
+.photographer-page.about .sec-title em {
+  font-style: italic;
+}
+
+.photographer-page.about .approach-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.photographer-page.about .ap-point {
+  background: rgba(248, 246, 242, 0.04);
+  border: 1px solid rgba(248, 246, 242, 0.06);
+  padding: 40px 36px;
+}
+
+.photographer-page.about .ap-num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(248, 246, 242, 0.12);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.photographer-page.about .ap-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--white);
+  font-weight: 300;
+  margin-bottom: 12px;
+}
+
+.photographer-page.about .ap-body {
+  font-size: 13px;
+  line-height: 1.85;
+  color: rgba(248, 246, 242, 0.45);
+}
+
+.photographer-page.about .clients {
+  padding: 80px 56px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+.photographer-page.about .clients-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.photographer-page.about .clients-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 48px;
+}
+
+.photographer-page.about .clients-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.photographer-page.about .client-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(10, 10, 10, 0.2);
+  transition: color 0.2s;
+}
+
+.photographer-page.about .client-name:hover {
+  color: rgba(10, 10, 10, 0.5);
+}
+
+.photographer-page.about .press {
+  padding: 80px 56px;
+  background: var(--warm);
+}
+
+.photographer-page.about .press-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.photographer-page.about .press-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 0.92;
+  font-weight: 300;
+}
+
+.photographer-page.about .press-title em {
+  font-style: italic;
+}
+
+.photographer-page.about .press-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 48px;
+}
+
+.photographer-page.about .press-card {
+  background: var(--white);
+  padding: 32px 28px;
+}
+
+.photographer-page.about .press-pub {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--black);
+  margin-bottom: 12px;
+}
+
+.photographer-page.about .press-quote {
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.photographer-page.about .press-issue {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(10, 10, 10, 0.3);
+  margin-top: 16px;
+}
+
+.photographer-page.about .cta {
+  padding: 100px 56px;
+  background: var(--black);
+  text-align: center;
+}
+
+.photographer-page.about .cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 8vw, 110px);
+  line-height: 0.88;
+  font-weight: 300;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.photographer-page.about .cta-title em {
+  font-style: italic;
+}
+
+.photographer-page.about .cta-sub {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(248, 246, 242, 0.4);
+  margin-bottom: 40px;
+}
+
+.photographer-page.about .btn-white {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--white);
+  padding: 16px 48px;
+  text-decoration: none;
+}
+
+.photographer-page.about .btn-white:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 960px) {
+  .photographer-page.about .about-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .photographer-page.about .ai-content {
+    padding: 60px 24px;
+  }
+
+  .photographer-page.about .approach,
+  .photographer-page.about .clients,
+  .photographer-page.about .press,
+  .photographer-page.about .cta {
+    padding: 72px 24px;
+  }
+
+  .photographer-page.about .approach-points,
+  .photographer-page.about .press-grid {
+    grid-template-columns: 1fr;
+  }
+}
