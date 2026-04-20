@@ -55,16 +55,19 @@
   padding: 0;
   margin: 0;
   cursor: pointer;
+  pointer-events: none;
 }
 
 .foot-nav-backdrop.is-open {
   display: block;
+  pointer-events: auto;
 }
 
 .foot-nav-mobile {
   position: fixed;
   top: 0;
   right: 0;
+  left: auto;
   z-index: 170;
   width: min(100vw - 40px, 320px);
   height: 100vh;
@@ -81,11 +84,13 @@
   flex-direction: column;
   gap: 8px;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .football-site-nav.football-site-nav--open .foot-nav-mobile {
   transform: translateX(0);
   visibility: visible;
+  pointer-events: auto;
 }
 
 .foot-nav-mobile-links {

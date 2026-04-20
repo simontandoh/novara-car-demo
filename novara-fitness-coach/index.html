@@ -63,8 +63,8 @@
   }
   body:hover .cursor { opacity: 1; }
 
-  /* NAV */
-  nav {
+  /* NAV — exclude drawer <nav class="nav-mobile"> from bar layout */
+  nav:not(.nav-mobile) {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
@@ -177,6 +177,12 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
+  }
+  .nav-mobile-backdrop:not([hidden]) {
+    display: block;
+  }
+  nav.nav-mobile:not([hidden]) {
+    display: flex;
   }
   .nav-mobile.is-open {
     transform: translateX(0);
@@ -1026,11 +1032,9 @@
 
   /* RESPONSIVE */
   @media (max-width: 900px) {
-    nav { padding: 20px 24px; }
+    nav:not(.nav-mobile) { padding: 20px 24px; }
     .nav-links { display: none; }
     .nav-toggle { display: flex; }
-    .nav-mobile,
-    .nav-mobile-backdrop { display: block; }
     section { padding: 80px 24px; }
     .hero { padding: 0 24px 64px; }
     .about { grid-template-columns: 1fr; gap: 48px; }
