@@ -51,14 +51,14 @@ nav.nav-mobile:not([hidden]){display:flex;}
 .nav-mobile-cta:hover{background:var(--rose);}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
-/* HERO — one viewport tall; columns share height; image scales inside row */
+/* HERO — one viewport tall (svh = stable visible height on mobile); columns share height */
 .hero{
   box-sizing:border-box;
+  min-height:0;
   height:100vh;
   max-height:100vh;
-  height:100dvh;
-  max-height:100dvh;
-  min-height:0;
+  height:100svh;
+  max-height:100svh;
   display:grid;
   grid-template-columns:1fr 1fr;
   grid-template-rows:minmax(0,1fr);
@@ -217,15 +217,20 @@ footer{background:var(--dark);padding:56px;display:grid;grid-template-columns:1f
 @media(max-width:960px){
   nav:not(.nav-mobile){padding:18px 20px;}.nav-links,.nav-book{display:none;}.nav-toggle{display:flex;}
   .hero{
-    height:auto;
-    max-height:none;
-    min-height:min(100dvh,100svh);
+    height:100svh;
+    max-height:100svh;
+    min-height:0;
     grid-template-columns:1fr;
-    grid-template-rows:auto minmax(220px,42vh);
-    overflow:visible;
+    grid-template-rows:minmax(0,1fr) minmax(0,min(36svh,42%));
+    overflow:hidden;
   }
-  .hero-left{padding:clamp(72px,12vh,100px) 24px clamp(28px,4vh,48px);}
-  .hero-right{min-height:0;height:auto;max-height:48vh;}
+  .hero-left{padding:clamp(56px,10svh,88px) 20px clamp(10px,2svh,28px);}
+  .hero-right{min-height:0;height:100%;max-height:none;}
+  h1{font-size:clamp(28px,8.5vw,52px);line-height:0.92;margin-bottom:clamp(10px,1.8svh,20px);}
+  .hero-sub{font-size:13px;line-height:1.75;margin-bottom:clamp(12px,2svh,28px);}
+  .hero-social{margin-top:clamp(10px,2svh,28px);flex-wrap:wrap;gap:16px;}
+  .hero-badge{bottom:clamp(12px,3vw,28px);left:clamp(12px,4vw,24px);padding:14px 18px;max-width:200px;}
+  .hb-num{font-size:clamp(26px,7vw,32px);}
   .about,.booking-inner{grid-template-columns:1fr;gap:48px;}
   .about{padding:72px 24px;}.services,.reviews,.pricing,.gallery,.process,.booking{padding:72px 24px;}
   .services-grid,.reviews-grid{grid-template-columns:1fr;}
