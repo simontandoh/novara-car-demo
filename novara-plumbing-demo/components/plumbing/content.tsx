@@ -108,20 +108,17 @@ export const team = [
   {
     name: "Danny Walsh",
     role: "Lead Engineer · 14 Years",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&fit=crop&crop=faces",
+    image: "/team-danny-walsh.png",
   },
   {
     name: "Chris Moran",
     role: "Boiler Specialist · Gas Safe",
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80&fit=crop&crop=faces",
+    image: "/team-chris-moran.png",
   },
   {
     name: "Ryan Clarke",
     role: "Bathroom Fitter · 8 Years",
-    image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80&fit=crop&crop=faces",
+    image: "/team-ryan-clarke.png",
   },
 ];
 
