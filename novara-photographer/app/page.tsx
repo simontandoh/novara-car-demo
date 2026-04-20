@@ -21,7 +21,7 @@ export default function HomePage() {
       <section className="hero">
         <img
           className="hero-photo"
-          src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1920&q=85&fit=crop&crop=top"
+          src="/home-hero.png"
           alt="Elodie Marsh Photography"
         />
         <div className="hero-ov" />
