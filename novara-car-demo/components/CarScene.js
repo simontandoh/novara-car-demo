@@ -50,7 +50,9 @@ function buildProceduralCar(scene) {
   car.add(bodyMesh)
 
   // Sills
-  car.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.18, 1.82), darkMat), { position: new THREE.Vector3(0, 0.09, 0) }))
+  const sills = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.18, 1.82), darkMat)
+  sills.position.set(0, 0.09, 0)
+  car.add(sills)
 
   // Spoiler
   const spoilerBase = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.06, 0.08), chromeMat)
@@ -120,7 +122,9 @@ function buildProceduralCar(scene) {
 
   // Grille
   const grilleMat = new THREE.MeshStandardMaterial({ color: 0x080808, metalness: 0.5, roughness: 0.8 })
-  car.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.22, 0.06), grilleMat), { position: new THREE.Vector3(0, 0.38, 0.9) }))
+  const grille = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.22, 0.06), grilleMat)
+  grille.position.set(0, 0.38, 0.9)
+  car.add(grille)
   for (let i = -2; i <= 2; i++) {
     const line = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.2, 0.04), chromeMat)
     line.position.set(i * 0.22, 0.38, 0.92)
@@ -210,7 +214,9 @@ export default function CarScene() {
     const rimLight = new THREE.DirectionalLight(0xc8002a, 1.5)
     rimLight.position.set(-6, 2, -4)
     scene.add(rimLight)
-    scene.add(Object.assign(new THREE.DirectionalLight(0x2244ff, 0.4), { position: new THREE.Vector3(-3, 4, 3) }))
+    const fillLight = new THREE.DirectionalLight(0x2244ff, 0.4)
+    fillLight.position.set(-3, 4, 3)
+    scene.add(fillLight)
     const groundLight = new THREE.PointLight(0xc8002a, 0.8, 8)
     groundLight.position.set(0, -1, 0)
     scene.add(groundLight)
