@@ -224,7 +224,8 @@
 
 .hero-photo {
   object-fit: cover;
-  object-position: center;
+  /* Subject sits camera-right; keep detail visible under left text gradient */
+  object-position: 72% center;
 }
 
 .hero-overlay {
@@ -252,7 +253,7 @@
 
 .hero-stripe-photo {
   object-fit: cover;
-  object-position: center;
+  object-position: 88% center;
   filter: brightness(0.55);
 }
 

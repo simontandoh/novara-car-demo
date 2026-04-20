@@ -6,7 +6,7 @@ export function Hero() {
     <section className="hero" aria-label="Introduction">
       <Image
         className="hero-photo"
-        src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=1920&q=85&fit=crop&crop=center"
+        src="/hero-plumbing.png"
         alt="Plumber at work"
         fill
         priority
@@ -16,7 +16,7 @@ export function Hero() {
       <div className="hero-stripe" aria-hidden="true">
         <Image
           className="hero-stripe-photo"
-          src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=900&q=80&fit=crop&crop=center"
+          src="/hero-plumbing.png"
           alt=""
           fill
           sizes="(max-width: 900px) 0vw, 46vw"
