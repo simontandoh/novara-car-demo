@@ -16,22 +16,30 @@ After cloning:
 
 ```powershell
 cd F:\novara_demos
-pwsh -File scripts/Setup-SubtreeRemotes.ps1
+powershell -NoProfile -File scripts/Setup-SubtreeRemotes.ps1
 ```
 
-After you commit changes on `master`:
+After you commit changes in the monorepo:
 
 ```powershell
-pwsh -File scripts/Push-AllSubtrees.ps1
+powershell -NoProfile -File scripts/Push-AllSubtrees.ps1
 ```
 
-Or push a single project:
+`defaultBranch` in `subtree-remotes.json` is **`master`** so subtree pushes match typical Vercel **Production Branch = master** settings.
+
+If you ever push to `main` only, sync deploy branch once:
 
 ```powershell
-git subtree push --prefix=novara-photographer photo main
+powershell -NoProfile -File scripts/Sync-MainToMaster.ps1
 ```
 
-(`main` matches `defaultBranch` in `subtree-remotes.json`; change both if you use another default branch.)
+Or push a single project (branch name must match `defaultBranch`):
+
+```powershell
+git subtree push --prefix=novara-photographer photo master
+```
+
+**Alternative (no branch sync):** In each Vercel project, set **Settings → Git → Production Branch** to **`main`** and keep subtree pushes on `main`.
 
 ## Demos with a linked publish remote
 

@@ -6,7 +6,7 @@
 .DESCRIPTION
   Reads scripts/subtree-remotes.json from the monorepo root and runs
   git remote add / git remote set-url so clones match the tracked config.
-  Run from repo root:  pwsh -File scripts/Setup-SubtreeRemotes.ps1
+  Run from repo root:  powershell -NoProfile -File scripts/Setup-SubtreeRemotes.ps1
 #>
 $ErrorActionPreference = "Stop"
 $root = Resolve-Path (Join-Path $PSScriptRoot "..")
@@ -17,7 +17,7 @@ if (-not (Test-Path $cfgPath)) {
   throw "Missing $cfgPath"
 }
 $cfg = Get-Content -Raw $cfgPath | ConvertFrom-Json
-$branch = if ($cfg.defaultBranch) { $cfg.defaultBranch } else { "main" }
+$branch = if ($cfg.defaultBranch) { $cfg.defaultBranch } else { "master" }
 
 foreach ($r in $cfg.remotes) {
   if (-not $r.pushUrl) { continue }
@@ -37,4 +37,4 @@ foreach ($r in $cfg.remotes) {
 Write-Host ""
 Write-Host "Registered subtree remotes. Default push branch in config: $branch"
 Write-Host "Push one:  git subtree push --prefix=PREFIX REMOTE_NAME $branch"
-Write-Host "Push all:  pwsh -File scripts/Push-AllSubtrees.ps1"
+Write-Host "Push all:  powershell -NoProfile -File scripts/Push-AllSubtrees.ps1"

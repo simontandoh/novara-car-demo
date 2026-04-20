@@ -4,8 +4,8 @@
   Push every configured subdirectory to its GitHub repo via git subtree.
 
 .DESCRIPTION
-  Uses scripts/subtree-remotes.json. Run from repo root after committing:
-    pwsh -File scripts/Push-AllSubtrees.ps1
+  Uses scripts/subtree-remotes.json defaultBranch. Run from repo root after committing:
+    powershell -NoProfile -File scripts/Push-AllSubtrees.ps1
 
   Requires network; may prompt for GitHub credentials depending on your setup.
 #>
@@ -15,7 +15,7 @@ Set-Location $root
 
 $cfgPath = Join-Path $root "scripts/subtree-remotes.json"
 $cfg = Get-Content -Raw $cfgPath | ConvertFrom-Json
-$branch = if ($cfg.defaultBranch) { $cfg.defaultBranch } else { "main" }
+$branch = if ($cfg.defaultBranch) { $cfg.defaultBranch } else { "master" }
 
 foreach ($r in $cfg.remotes) {
   if (-not $r.pushUrl) { continue }

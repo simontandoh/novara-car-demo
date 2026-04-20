@@ -1,5 +1,5 @@
 {
-  "defaultBranch": "main",
+  "defaultBranch": "master",
   "remotes": [
     {
       "prefix": "novara-fitness-coach",
