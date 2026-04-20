@@ -1,0 +1,48 @@
+{
+  "defaultBranch": "main",
+  "remotes": [
+    {
+      "prefix": "novara-fitness-coach",
+      "remoteName": "fitness-coach",
+      "pushUrl": "https://github.com/simontandoh/novara-fitness-coach.git"
+    },
+    {
+      "prefix": "novara-photographer",
+      "remoteName": "photo",
+      "pushUrl": "https://github.com/simontandoh/novara-photographer.git"
+    },
+    {
+      "prefix": "novara-luxury-brand",
+      "remoteName": "luxury-brand",
+      "pushUrl": "https://github.com/simontandoh/novara-luxury-brand.git"
+    },
+    {
+      "prefix": "novara-restaurant-demo",
+      "remoteName": "restaurant-demo",
+      "pushUrl": "https://github.com/simontandoh/novara-restaurant-demo.git"
+    },
+    {
+      "prefix": "novara-luxury-restaurant",
+      "remoteName": "luxury-restaurant",
+      "pushUrl": "https://github.com/simontandoh/novara-luxury-restaurant.git"
+    },
+    {
+      "prefix": "novara-influencer",
+      "remoteName": "influencer",
+      "pushUrl": "https://github.com/simontandoh/novara-influencer.git"
+    },
+    {
+      "prefix": "novara-nail-tech",
+      "remoteName": "nail-tech",
+      "pushUrl": "https://github.com/simontandoh/novara-nail-tech.git"
+    }
+  ],
+  "prefixesWithoutRemote": [
+    "novara-car-demo",
+    "novara-football-club",
+    "novara-law-firm",
+    "novara-plumbing-demo",
+    "novara_template",
+    "willow-stone-demo"
+  ]
+}
