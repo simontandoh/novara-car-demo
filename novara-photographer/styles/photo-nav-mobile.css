@@ -55,16 +55,19 @@
   padding: 0;
   margin: 0;
   cursor: pointer;
+  pointer-events: none;
 }
 
 .photo-nav-backdrop.is-open {
   display: block;
+  pointer-events: auto;
 }
 
 .photo-nav-mobile {
   position: fixed;
   top: 0;
   right: 0;
+  left: auto;
   z-index: 220;
   width: min(100vw - 40px, 320px);
   height: 100vh;
@@ -81,11 +84,13 @@
   flex-direction: column;
   gap: 12px;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .photo-site-nav.photo-site-nav--open .photo-nav-mobile {
   transform: translateX(0);
   visibility: visible;
+  pointer-events: auto;
 }
 
 .photo-nav-mobile-links {
