@@ -44,6 +44,9 @@ Configured in `scripts/subtree-remotes.json`:
 - `novara-luxury-restaurant`
 - `novara-influencer`
 - `novara-nail-tech`
+- `novara-plumbing-demo`
+- `novara-football-club`
+- `novara-law-firm`
 
 ## Other folders (no URL yet)
 

@@ -35,13 +35,25 @@
       "prefix": "novara-nail-tech",
       "remoteName": "nail-tech",
       "pushUrl": "https://github.com/simontandoh/novara-nail-tech.git"
+    },
+    {
+      "prefix": "novara-plumbing-demo",
+      "remoteName": "plumbing-demo",
+      "pushUrl": "https://github.com/simontandoh/novara-plumbing-demo.git"
+    },
+    {
+      "prefix": "novara-football-club",
+      "remoteName": "football-club",
+      "pushUrl": "https://github.com/simontandoh/novara-football-club.git"
+    },
+    {
+      "prefix": "novara-law-firm",
+      "remoteName": "law-firm",
+      "pushUrl": "https://github.com/simontandoh/novara-law-firm.git"
     }
   ],
   "prefixesWithoutRemote": [
     "novara-car-demo",
-    "novara-football-club",
-    "novara-law-firm",
-    "novara-plumbing-demo",
     "novara_template",
     "willow-stone-demo"
   ]
