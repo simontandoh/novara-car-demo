@@ -18,16 +18,17 @@ export default function Cursor() {
       cursor.style.top = `${my}px`
     }
 
+    let ringRaf = 0
     const animateRing = () => {
       rx += (mx - rx) * 0.12
       ry += (my - ry) * 0.12
       ring.style.left = `${rx}px`
       ring.style.top = `${ry}px`
-      requestAnimationFrame(animateRing)
+      ringRaf = requestAnimationFrame(animateRing)
     }
 
     document.addEventListener('mousemove', onMove)
-    animateRing()
+    ringRaf = requestAnimationFrame(animateRing)
 
     const interactive = document.querySelectorAll('a, button')
     interactive.forEach((el) => {
@@ -47,6 +48,7 @@ export default function Cursor() {
 
     return () => {
       document.removeEventListener('mousemove', onMove)
+      cancelAnimationFrame(ringRaf)
     }
   }, [])
 

@@ -1,4 +1,3 @@
-'use client'
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 
@@ -167,10 +166,11 @@ export default function CarScene() {
   const mountRef = useRef(null)
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
     const container = mountRef.current
     if (!container) return
-    const W = container.clientWidth
-    const H = container.clientHeight
+    const W = Math.max(1, container.clientWidth)
+    const H = Math.max(1, container.clientHeight)
 
     // Scene
     const scene = new THREE.Scene()
@@ -183,7 +183,16 @@ export default function CarScene() {
     camera.lookAt(0, 0, 0)
 
     // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    let renderer
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    } catch {
+      return
+    }
+    if (!renderer.getContext()) {
+      renderer.dispose()
+      return
+    }
     renderer.setSize(W, H)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.shadowMap.enabled = true
@@ -271,7 +280,8 @@ export default function CarScene() {
 
     // Resize
     const onResize = () => {
-      const w = container.clientWidth, h = container.clientHeight
+      const w = Math.max(1, container.clientWidth)
+      const h = Math.max(1, container.clientHeight)
       camera.aspect = w / h
       camera.updateProjectionMatrix()
       renderer.setSize(w, h)

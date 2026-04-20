@@ -1,4 +1,6 @@
-import CarScene from './CarScene'
+import dynamic from 'next/dynamic'
+
+const CarScene = dynamic(() => import('./CarScene'), { ssr: false })
 
 export default function Hero() {
   return (
