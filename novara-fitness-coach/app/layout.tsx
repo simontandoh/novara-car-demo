@@ -1,25 +1,11 @@
 import type { Metadata, Viewport } from "next";
 
+import { siteConfig } from "@/config/site";
+import { createSiteMetadata } from "@/lib/metadata";
+
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Marcus Cole - Elite Performance Coach",
-  description: "Marcus Cole Performance delivers elite coaching in Liverpool with precision training, structured nutrition, and accountability-led transformation plans.",
-  metadataBase: new URL("https://fitness.novarastudios.co.uk"),
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Marcus Cole - Elite Performance Coach",
-    description: "Marcus Cole Performance delivers elite coaching in Liverpool with precision training, structured nutrition, and accountability-led transformation plans.",
-    url: "https://fitness.novarastudios.co.uk",
-    siteName: "Marcus Cole",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Marcus Cole - Elite Performance Coach",
-    description: "Marcus Cole Performance delivers elite coaching in Liverpool with precision training, structured nutrition, and accountability-led transformation plans.",
-  },
-};
+export const metadata: Metadata = createSiteMetadata(siteConfig);
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -31,7 +17,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

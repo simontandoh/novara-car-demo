@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next";
 
+import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
+import { siteConfig } from "@/config/site";
+import { createSiteMetadata } from "@/lib/metadata";
+
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Novara Template",
-  description: "Reusable Next.js App Router starter for Novara projects.",
-};
+export const metadata: Metadata = createSiteMetadata(siteConfig);
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -21,7 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="flex min-h-dvh flex-col antialiased">
+        <Navbar />
+        <div className="flex-1">{children}</div>
+        <Footer />
+      </body>
     </html>
   );
 }
