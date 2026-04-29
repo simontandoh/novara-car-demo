@@ -1,25 +1,29 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
-// ============================================================
-// 🔧 TO SWAP IN A REAL CAR MODEL:
-//
-// 1. Install loader:  npm install three  (already included)
-// 2. Import at top:   import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-// 3. Place your .glb file in /public/models/car.glb
-// 4. Replace the buildProceduralCar(scene) call below with:
-//
-//    const loader = new GLTFLoader()
-//    loader.load('/models/car.glb', (gltf) => {
-//      const model = gltf.scene
-//      model.scale.set(1, 1, 1)        // adjust scale as needed
-//      model.position.set(0, 0, 0)     // adjust position as needed
-//      scene.add(model)
-//    })
-//
-// Everything else (lighting, drag, camera, animation) stays exactly the same.
-// ============================================================
+const CAR_MODEL_PATH = '/models/car.glb'
+
+function fitModelToHero(model, targetSize = 4.2) {
+  const box = new THREE.Box3().setFromObject(model)
+  const size = box.getSize(new THREE.Vector3())
+  const center = box.getCenter(new THREE.Vector3())
+  const maxDimension = Math.max(size.x, size.y, size.z) || 1
+  const scale = targetSize / maxDimension
+
+  model.position.set(-center.x, -box.min.y, -center.z)
+  model.scale.setScalar(scale)
+}
+
+function disposeObject(object) {
+  object.traverse((child) => {
+    if (!child.isMesh) return
+    child.geometry?.dispose()
+    const materials = Array.isArray(child.material) ? child.material : [child.material]
+    materials.forEach((material) => material?.dispose?.())
+  })
+}
 
 function buildProceduralCar(scene) {
   const car = new THREE.Group()
@@ -253,11 +257,39 @@ export default function CarScene() {
       new THREE.PointsMaterial({ color: 0x440011, size: 0.06, transparent: true, opacity: 0.6 }))
     scene.add(particles)
 
-    // ============================================================
-    // BUILD CAR — swap this function call to use a real GLB model
-    // See the comment block at the top of this file for instructions
-    // ============================================================
-    const { car, wheels } = buildProceduralCar(scene)
+    const car = new THREE.Group()
+    car.rotation.y = 0.3
+    scene.add(car)
+    let wheels = []
+
+    const loader = new GLTFLoader()
+    loader.load(
+      CAR_MODEL_PATH,
+      (gltf) => {
+        if (disposed) {
+          disposeObject(gltf.scene)
+          return
+        }
+
+        car.clear()
+        wheels = []
+        const model = gltf.scene
+        fitModelToHero(model)
+        model.traverse((child) => {
+          if (!child.isMesh) return
+          child.castShadow = true
+          child.receiveShadow = true
+        })
+        car.add(model)
+      },
+      undefined,
+      () => {
+        if (disposed) return
+        const fallback = buildProceduralCar(new THREE.Scene())
+        car.add(fallback.car)
+        wheels = fallback.wheels
+      }
+    )
 
     // Drag interaction
     let targetRotY = 0.3, targetRotX = 0
@@ -333,6 +365,7 @@ export default function CarScene() {
       window.removeEventListener('touchend', onTouchEnd)
       window.removeEventListener('touchmove', onTouchMove)
       window.removeEventListener('resize', onResize)
+      disposeObject(car)
       renderer.dispose()
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement)
