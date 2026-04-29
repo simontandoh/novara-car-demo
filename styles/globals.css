@@ -105,6 +105,13 @@ nav {
   inset: 0;
 }
 
+.car-scene-canvas {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
 #canvas-container canvas {
   display: block;
   width: 100% !important;
