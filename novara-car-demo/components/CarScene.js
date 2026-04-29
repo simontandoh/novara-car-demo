@@ -173,8 +173,10 @@ export default function CarScene() {
     if (typeof window === 'undefined') return
     const container = mountRef.current
     if (!container) return
+    container.textContent = ''
     const W = Math.max(1, container.clientWidth)
     const H = Math.max(1, container.clientHeight)
+    let disposed = false
 
     // Scene
     const scene = new THREE.Scene()
@@ -300,6 +302,7 @@ export default function CarScene() {
     const clock = new THREE.Clock()
 
     const animate = () => {
+      if (disposed) return
       rafId = requestAnimationFrame(animate)
       const dt = clock.getDelta()
       time += dt
@@ -320,6 +323,7 @@ export default function CarScene() {
 
     // Cleanup
     return () => {
+      disposed = true
       cancelAnimationFrame(rafId)
       container.removeEventListener('mousedown', onMouseDown)
       window.removeEventListener('mouseup', onMouseUp)
@@ -338,7 +342,7 @@ export default function CarScene() {
   return (
     <div
       ref={mountRef}
-      style={{ position: 'absolute', inset: 0, cursor: 'grab' }}
+      className="car-scene-canvas"
     />
   )
 }
