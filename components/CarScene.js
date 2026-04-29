@@ -5,15 +5,15 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 const CAR_MODEL_PATH = '/models/car.glb'
 
-function fitModelToHero(model, targetSize = 4.2) {
+function fitModelToHero(model, targetSize = 4.4) {
   const box = new THREE.Box3().setFromObject(model)
   const size = box.getSize(new THREE.Vector3())
   const center = box.getCenter(new THREE.Vector3())
   const maxDimension = Math.max(size.x, size.y, size.z) || 1
   const scale = targetSize / maxDimension
 
-  model.position.set(-center.x, -box.min.y, -center.z)
   model.scale.setScalar(scale)
+  model.position.set(-center.x * scale, -box.min.y * scale - 0.08, -center.z * scale)
 }
 
 function disposeObject(object) {
@@ -205,7 +205,7 @@ export default function CarScene() {
       return
     }
     renderer.setSize(W, H)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     renderer.shadowMap.enabled = true
     renderer.shadowMap.type = THREE.PCFSoftShadowMap
     renderer.toneMapping = THREE.ACESFilmicToneMapping
@@ -258,9 +258,11 @@ export default function CarScene() {
     scene.add(particles)
 
     const car = new THREE.Group()
-    car.rotation.y = 0.3
+    car.rotation.y = -0.35
     scene.add(car)
-    let wheels = []
+    const fallback = buildProceduralCar(new THREE.Scene())
+    car.add(fallback.car)
+    let wheels = fallback.wheels
 
     const loader = new GLTFLoader()
     loader.load(
@@ -271,6 +273,7 @@ export default function CarScene() {
           return
         }
 
+        disposeObject(car)
         car.clear()
         wheels = []
         const model = gltf.scene
@@ -285,47 +288,50 @@ export default function CarScene() {
       undefined,
       () => {
         if (disposed) return
-        const fallback = buildProceduralCar(new THREE.Scene())
-        car.add(fallback.car)
         wheels = fallback.wheels
       }
     )
 
     // Drag interaction
-    let targetRotY = 0.3, targetRotX = 0
-    let isDragging = false, prevX = 0, prevY = 0
+    let targetRotY = -0.35, targetRotX = 0
+    let isDragging = false, activePointerId = null, prevX = 0, prevY = 0
 
-    const onMouseDown = (e) => { isDragging = true; prevX = e.clientX; prevY = e.clientY }
-    const onMouseUp = () => { isDragging = false }
-    const onMouseMove = (e) => {
-      if (!isDragging) return
-      targetRotY += (e.clientX - prevX) * 0.008
-      targetRotX += (e.clientY - prevY) * 0.004
+    const onPointerDown = (e) => {
+      isDragging = true
+      activePointerId = e.pointerId
+      prevX = e.clientX
+      prevY = e.clientY
+      container.setPointerCapture?.(e.pointerId)
+    }
+    const onPointerUp = (e) => {
+      isDragging = false
+      if (activePointerId !== null) container.releasePointerCapture?.(activePointerId)
+      activePointerId = null
+    }
+    const onPointerMove = (e) => {
+      if (!isDragging || e.pointerId !== activePointerId) return
+      targetRotY -= (e.clientX - prevX) * 0.008
+      targetRotX -= (e.clientY - prevY) * 0.004
       targetRotX = Math.max(-0.4, Math.min(0.4, targetRotX))
       prevX = e.clientX; prevY = e.clientY
     }
-    const onTouchStart = (e) => { isDragging = true; prevX = e.touches[0].clientX }
-    const onTouchEnd = () => { isDragging = false }
-    const onTouchMove = (e) => {
-      if (!isDragging) return
-      targetRotY += (e.touches[0].clientX - prevX) * 0.008
-      prevX = e.touches[0].clientX
-    }
 
-    container.addEventListener('mousedown', onMouseDown)
-    window.addEventListener('mouseup', onMouseUp)
-    window.addEventListener('mousemove', onMouseMove)
-    container.addEventListener('touchstart', onTouchStart)
-    window.addEventListener('touchend', onTouchEnd)
-    window.addEventListener('touchmove', onTouchMove)
+    container.addEventListener('pointerdown', onPointerDown, { passive: true })
+    container.addEventListener('pointerup', onPointerUp, { passive: true })
+    container.addEventListener('pointercancel', onPointerUp, { passive: true })
+    container.addEventListener('pointermove', onPointerMove, { passive: true })
 
     // Resize
+    let resizeRaf = 0
     const onResize = () => {
-      const w = Math.max(1, container.clientWidth)
-      const h = Math.max(1, container.clientHeight)
-      camera.aspect = w / h
-      camera.updateProjectionMatrix()
-      renderer.setSize(w, h)
+      cancelAnimationFrame(resizeRaf)
+      resizeRaf = requestAnimationFrame(() => {
+        const w = Math.max(1, container.clientWidth)
+        const h = Math.max(1, container.clientHeight)
+        camera.aspect = w / h
+        camera.updateProjectionMatrix()
+        renderer.setSize(w, h)
+      })
     }
     window.addEventListener('resize', onResize)
 
@@ -358,12 +364,11 @@ export default function CarScene() {
     return () => {
       disposed = true
       cancelAnimationFrame(rafId)
-      container.removeEventListener('mousedown', onMouseDown)
-      window.removeEventListener('mouseup', onMouseUp)
-      window.removeEventListener('mousemove', onMouseMove)
-      container.removeEventListener('touchstart', onTouchStart)
-      window.removeEventListener('touchend', onTouchEnd)
-      window.removeEventListener('touchmove', onTouchMove)
+      cancelAnimationFrame(resizeRaf)
+      container.removeEventListener('pointerdown', onPointerDown)
+      container.removeEventListener('pointerup', onPointerUp)
+      container.removeEventListener('pointercancel', onPointerUp)
+      container.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('resize', onResize)
       disposeObject(car)
       renderer.dispose()
